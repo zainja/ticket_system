@@ -8,3 +8,4 @@
 .idea/ticket_system.iml
 .idea/vcs.xml
 bin/
+config.js
