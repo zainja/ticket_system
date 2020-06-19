@@ -25,13 +25,40 @@ router.post("/register",(req, res) => {
         connection.query("INSERT INTO users SET ?",registerSet,
             (err, result) =>{
                 if (err){
-                    res.send(err)
+                    res.status(500)
                     return
                 }
                 res.send(result)
             })
     })
 
+})
+
+router.post("/login",  (req, res) => {
+    const {userName, password} = req.body
+    connection.query("SELECT * FROM users WHERE username=?", userName, (err, result) => {
+        if (err){
+            res.send({"code": 400, "failed": err})
+        }else {
+            if (result.length > 0){
+                console.log(result)
+                let comparison = null
+                bcrypt.compare(password, result[0].encrypted_password,(err, result) =>
+                {
+                    if (err){
+                        console.log(err)
+                    }
+                    if (result){
+                        res.send({"code": 200, "success": "login worked" })
+                    }else {
+                        res.send({"code": 204, "success": "wrong password"})
+                    }
+                })
+            }else {
+                res.send({"code": 206, "success": "user not found"})
+            }
+        }
+    })
 })
 
 module.exports = router
