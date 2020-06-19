@@ -9,3 +9,4 @@
 .idea/vcs.xml
 bin/
 config.js
+test.http

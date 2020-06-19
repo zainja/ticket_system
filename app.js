@@ -3,17 +3,14 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-
 const indexRouter = require('./routes/index');
-
+const userRouter = require("./routes/auth");
 const app = express();
-
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
-
+app.use('/auth', userRouter)
+const port = 5000 | process.env.PORT
+app.listen(port)
 module.exports = app;

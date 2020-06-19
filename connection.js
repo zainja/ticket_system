@@ -1,6 +1,6 @@
 // imports
 const mysql = require('mysql')
-const config =  require('config')
+const config =  require('./config')
 
 // connection set up
 const connection = mysql.createConnection(config)
