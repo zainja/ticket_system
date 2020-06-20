@@ -30,4 +30,15 @@ router.post("/delete-team", tokenAuth, async (req, res) =>{
         res.send(e)
     }
 })
+
+router.post("/all", tokenAuth, async (req, res) => {
+    const teamLeader = res.user
+    try {
+        const result = await teamQueries.getTeams(teamLeader)
+        res.json({"teams": result})
+    }catch (e) {
+        res.send(e)
+    }
+})
+
 module.exports = router
