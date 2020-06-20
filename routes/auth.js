@@ -1,7 +1,10 @@
 // required imports
+require('dotenv').config()
 const express = require('express')
 const bcrypt = require('bcrypt')
+const tokenAuth = require('tokenAuth')
 const authentication = require('../query/authentication')
+const jwt = require('jsonwebtoken')
 const saltRounds = 10
 const router = express.Router();
 const hashPassword = (password, salt) => {
@@ -35,7 +38,8 @@ router.post("/register",async (req, res) => {
     try {
         registerSet["encrypted_password"] = await hashPassword(password, saltRounds)
         const result = await authentication.register(registerSet)
-        res.send({"code" : 200})
+        const token = jwt.sign(userName, process.env.ACCESS_TOKEN_SECRET)
+        res.send({accessToken: token})
 
     }catch (e) {
         res.send({"error": 500, "r": e})
@@ -49,7 +53,8 @@ router.post("/login",  async (req, res) => {
         const result = await authentication.login(userName)
         if (result.length > 0){
             if(await comparePasswords(password, result[0].encrypted_password)){
-                res.send({"code": 200, "result": "login successful"})
+                const token = jwt.sign(userName, process.env.ACCESS_TOKEN_SECRET)
+                res.json({accessToken: token})
             }else {
                 res.send({"code": 206, "result": "incorrect password"})
             }
