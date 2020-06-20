@@ -1,18 +1,22 @@
 // required imports
 const express = require('express')
 const bcrypt = require('bcrypt')
-const connection = require("../connection")
-
+const authentication = require('../query/authentication')
 const saltRounds = 10
 const router = express.Router();
-// connection
-const connectionWorked = connection.connect((err) => {
-    return !err;
+const hashPassword = (password, salt) => {
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(password, salt, (err, hash) => {
+            if (err) reject(err)
+            resolve(hash)
+        })
+    })
+}
 
-})
+
 router.get("/", (req, res) => res.send("Worked"))
 
-router.post("/register",(req, res) => {
+router.post("/register",async (req, res) => {
     const {userName, firstName, lastName, password} = req.body
     let registerSet = {
         "username": userName,
@@ -20,17 +24,14 @@ router.post("/register",(req, res) => {
         "last_name": lastName,
         "encrypted_password": null
     }
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-        registerSet["encrypted_password"] = hash
-        connection.query("INSERT INTO users SET ?",registerSet,
-            (err, result) =>{
-                if (err){
-                    res.status(500)
-                    return
-                }
-                res.send(result)
-            })
-    })
+    try {
+        registerSet["encrypted_password"] = await hashPassword(password, saltRounds)
+        const result = await authentication.register(registerSet)
+        res.send({"code" : 200})
+
+    }catch (e) {
+        res.send({"error": 500, "r": e})
+    }
 
 })
 
