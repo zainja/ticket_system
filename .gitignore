@@ -1,12 +1,6 @@
 # Project exclude paths
 /node_modules/
-.idea/.gitignore
-.idea/jsLibraryMappings.xml
-.idea/misc.xml
-.idea/modules.xml
-.idea/runConfigurations/
-.idea/ticket_system.iml
-.idea/vcs.xml
+.idea/*
 bin/
 config.js
 test.http

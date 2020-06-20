@@ -12,6 +12,14 @@ const hashPassword = (password, salt) => {
         })
     })
 }
+const comparePasswords = (password, hash) => {
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(password, hash, (err, result) => {
+            if(err) reject(err)
+            resolve(result)
+        })
+    })
+}
 
 
 router.get("/", (req, res) => res.send("Worked"))
@@ -35,31 +43,25 @@ router.post("/register",async (req, res) => {
 
 })
 
-router.post("/login",  (req, res) => {
+router.post("/login",  async (req, res) => {
     const {userName, password} = req.body
-    connection.query("SELECT * FROM users WHERE username=?", userName, (err, result) => {
-        if (err){
-            res.send({"code": 400, "failed": err})
-        }else {
-            if (result.length > 0){
-                console.log(result)
-                let comparison = null
-                bcrypt.compare(password, result[0].encrypted_password,(err, result) =>
-                {
-                    if (err){
-                        console.log(err)
-                    }
-                    if (result){
-                        res.send({"code": 200, "success": "login worked" })
-                    }else {
-                        res.send({"code": 204, "success": "wrong password"})
-                    }
-                })
+    try {
+        const result = await authentication.login(userName)
+        if (result.length > 0){
+            if(await comparePasswords(password, result[0].encrypted_password)){
+                res.send({"code": 200, "result": "login successful"})
             }else {
-                res.send({"code": 206, "success": "user not found"})
+                res.send({"code": 206, "result": "incorrect password"})
             }
         }
-    })
+        else {
+            res.send("user not found")
+        }
+    }catch (e) {
+        res.code(500)
+    }
+
+
 })
 
 module.exports = router

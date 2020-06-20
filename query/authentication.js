@@ -6,7 +6,7 @@ connection.connect((err) => {
 })
 exports.register = (usersSet) => {
     return new Promise((resolve, reject) => {
-        connection.query("INSERT INTO USERS SET ?",
+        connection.query("INSERT INTO users SET ?",
             usersSet,(err, result) => {
                 if (err) reject(err)
                 resolve(result)
