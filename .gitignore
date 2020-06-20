@@ -4,3 +4,4 @@
 bin/
 config.js
 test.http
+.env
