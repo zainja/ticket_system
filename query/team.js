@@ -19,7 +19,7 @@ exports.createTeam = (teamObj) => {
 exports.getTeams = (creatorUsername) => {
     return new Promise((resolve, reject) => {
 
-        connection.query("SELECT team_name FROM team WHERE team_leader=?", creatorUsername, (err, result) =>{
+        connection.query("SELECT team_name FROM team WHERE team_leader = ?", [creatorUsername], (err, result) =>{
             if (err) reject(err)
             resolve(result)
         })
@@ -28,7 +28,7 @@ exports.getTeams = (creatorUsername) => {
 exports.changeTeamName = (teamInfo) =>{
     const {oldTeamName, newTeamName} = teamInfo
     return new Promise((resolve, reject) => {
-        connection.query("UPDATE team SET team_name=? Where team_name=oldTeamName", newTeamName,(err, result) =>{
+        connection.query(`UPDATE team SET team_name = ? Where team_name = ?`, [newTeamName, oldTeamName],(err, result) =>{
             if (err) reject(err)
             resolve(result)
         } )
@@ -36,7 +36,7 @@ exports.changeTeamName = (teamInfo) =>{
 }
 exports.deleteTeam = (teamName) => {
     return new Promise((resolve, reject) => {
-        connection.query("DELETE FROM team WHERE team_name=?", teamName, (err, result) => {
+        connection.query("DELETE FROM team WHERE team_name=?", [teamName], (err, result) => {
             if (err) reject(err)
             resolve(result)
         })

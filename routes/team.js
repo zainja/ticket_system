@@ -31,11 +31,19 @@ router.post("/delete-team", tokenAuth, async (req, res) =>{
     }
 })
 
-router.post("/all", tokenAuth, async (req, res) => {
-    const teamLeader = res.user
+router.get("/all", tokenAuth, async (req, res) => {
+    const teamLeader = req.user
     try {
         const result = await teamQueries.getTeams(teamLeader)
         res.json({"teams": result})
+    }catch (e) {
+        res.send(e)
+    }
+})
+router.post("/edit-name", tokenAuth, async (req, res) => {
+    try {
+        await teamQueries.changeTeamName(req.body)
+        res.sendStatus(200)
     }catch (e) {
         res.send(e)
     }
