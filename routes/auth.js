@@ -2,7 +2,6 @@
 require('dotenv').config()
 const express = require('express')
 const bcrypt = require('bcrypt')
-const tokenAuth = require('tokenAuth')
 const authentication = require('../query/authentication')
 const jwt = require('jsonwebtoken')
 const saltRounds = 10
