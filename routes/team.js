@@ -20,4 +20,14 @@ router.post("/create-team/", tokenAuth, async (req, res) => {
 
 } )
 
+// TODO[1] check to better authorize it
+router.post("/delete-team", tokenAuth, async (req, res) =>{
+    const {teamName} = req.body
+    try{
+        await teamQueries.deleteTeam(teamName)
+        res.sendStatus(200)
+    }catch (e) {
+        res.send(e)
+    }
+})
 module.exports = router
