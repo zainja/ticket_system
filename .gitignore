@@ -1,8 +1,7 @@
 # Project exclude paths
 /node_modules/
-.idea
 .idea/*
 bin/
-.env
-
+config.js
 test.http
+.env
