@@ -23,3 +23,23 @@ exports.getAllPendingRequests = (username) => {
             })
     }))
 }
+
+exports.leaveTeam = (username, team_name) => {
+    return new Promise((resolve, reject) => {
+        connection.query("DELETE FROM user_team WHERE username = ? AND teamname = ?",
+            [username, team_name],(err, result) => {
+                if(err) reject(err)
+                resolve(result)
+            })
+    })
+}
+
+exports.getAllTeamsUserIn = (userName) => {
+    return new Promise((resolve, reject) => {
+        connection.query("SELECT teamname FROM user_team WHERE username = ?", [userName], (err, result) =>
+        {
+            if (err) reject(err)
+            resolve(result)
+        })
+    })
+}
