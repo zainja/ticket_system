@@ -12,20 +12,10 @@ exports.searchUser = (name) => {
     )
 }
 
-exports.getUser = (username) => {
-    return new Promise(((resolve, reject) => {
-        connection.query("SELECT username from users WHERE username = ?", username, (err , result) => {
-            if (err) reject(err)
-            resolve(result)
-        })
-    }))
-}
 
 exports.getUsers = (leader, team) => {
     return new Promise( (resolve, reject) => {
-        connection.query("SELECT username From users" +
-            " LEFT JOIN user_team ON users.username = test.user_team.username\n" +
-            "AND user_team.teamname != ? WHERE test.users.username != ?",[team, leader], (err, result) => {
+        connection.query("SELECT username From users LEFT JOIN user_team ON users.username = test.user_team.username AND user_team.teamname != ? WHERE test.users.username != ?",[team, leader], (err, result) => {
             if (err) reject(err)
             resolve(result)
         })

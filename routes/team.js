@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const teamQueries = require('../query/team')
+const teamMemberOperations = require('../query/teamMemberOpeartions')
 const router = express.Router();
 const tokenAuth = require('../tokenAuth')
 router.post("/create-team/", tokenAuth, async (req, res) => {
