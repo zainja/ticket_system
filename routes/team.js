@@ -14,7 +14,7 @@ router.post("/create-team/", tokenAuth, async (req, res) => {
         await teamQueries.createTeam(teamObj)
         res.sendStatus(200)
     }catch (e) {
-        res.send(e)
+        res.send({"code": 200, "error" : e})
     }
 
 
@@ -27,7 +27,7 @@ router.post("/delete-team", tokenAuth, async (req, res) =>{
         await teamQueries.deleteTeam(teamName)
         res.sendStatus(200)
     }catch (e) {
-        res.send(e)
+        res.send({"code": 200, "error" : e})
     }
 })
 
