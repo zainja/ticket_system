@@ -25,8 +25,7 @@ exports.getTeams = (creatorUsername) => {
         })
     })
 }
-exports.changeTeamName = (teamInfo) =>{
-    const {oldTeamName, newTeamName} = teamInfo
+exports.changeTeamName = (oldTeamName, newTeamName) =>{
     return new Promise((resolve, reject) => {
         connection.query(`UPDATE team SET team_name = ? Where team_name = ?`, [newTeamName, oldTeamName],(err, result) =>{
             if (err) reject(err)
@@ -45,7 +44,7 @@ exports.deleteTeam = (teamName) => {
 
 exports.addMember = (member, teamName) => {
     return new Promise((resolve, reject) => {
-        connection.query("INSERT INTO user_team (username, teamname, user_status) VALUES ( ? , ? , 'pending')", [teamName, member]
+        connection.query("INSERT INTO user_team (username, teamname, user_status) VALUES ( ? , ? , 'pending')", [member, teamName]
             ,(err, result) => {
                 if (err) reject(err)
                 resolve(result)

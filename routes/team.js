@@ -30,7 +30,7 @@ router.post("/delete-team", tokenAuth, async (req, res) =>{
         res.send({"code": 200, "error" : e})
     }
 })
-
+// get all teams the user created
 router.get("/all", tokenAuth, async (req, res) => {
     const teamLeader = req.user
     try {
@@ -42,11 +42,31 @@ router.get("/all", tokenAuth, async (req, res) => {
 })
 router.post("/edit-name", tokenAuth, async (req, res) => {
     try {
-        await teamQueries.changeTeamName(req.body)
+        const {oldTeamName, newTeamName} = req.body
+        await teamQueries.changeTeamName(oldTeamName, newTeamName)
         res.sendStatus(200)
     }catch (e) {
         res.send(e)
     }
 })
 
+router.post("/add-member", tokenAuth, async (req, res) =>{
+    const {teamName, teamMember} = req.body
+    try {
+        await teamQueries.addMember(teamMember, teamName)
+        res.sendStatus(200)
+    }catch (e) {
+        res.send(e)
+    }
+} )
+
+router.post("/get-members", tokenAuth, async (req, res) => {
+    const {teamName} = req.body
+    try {
+        const teamMembers = await teamQueries.getTeamMembers(teamName)
+        res.send({"teamMembers": teamMembers})
+    }catch (e) {
+        res.sendStatus(500)
+    }
+})
 module.exports = router
