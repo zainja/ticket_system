@@ -36,7 +36,7 @@ exports.changeTeamName = (teamInfo) =>{
 }
 exports.deleteTeam = (teamName) => {
     return new Promise((resolve, reject) => {
-        connection.query("DELETE FROM team WHERE team_name=?", [teamName], (err, result) => {
+        connection.query("DELETE FROM team WHERE team_name = ?", [teamName], (err, result) => {
             if (err) reject(err)
             resolve(result)
         })
@@ -45,7 +45,7 @@ exports.deleteTeam = (teamName) => {
 
 exports.addMember = (member, teamName) => {
     return new Promise((resolve, reject) => {
-        connection.query("INSERT INTO user_team (username, team_name, user_status) VALUES (?,?, pending)", [teamName, member]
+        connection.query("INSERT INTO user_team (username, team_name, user_status) VALUES ( ? , ? , 'pending')", [teamName, member]
             ,(err, result) => {
                 if (err) reject(err)
                 resolve(result)
