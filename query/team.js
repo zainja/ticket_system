@@ -45,10 +45,19 @@ exports.deleteTeam = (teamName) => {
 
 exports.addMember = (member, teamName) => {
     return new Promise((resolve, reject) => {
-        connection.query("INSERT INTO user_team (username, team_name, user_status) VALUES ( ? , ? , 'pending')", [teamName, member]
+        connection.query("INSERT INTO user_team (username, teamname, user_status) VALUES ( ? , ? , 'pending')", [teamName, member]
             ,(err, result) => {
                 if (err) reject(err)
                 resolve(result)
             })
+    })
+}
+
+exports.getTeamMembers = (teamName) =>{
+    return new Promise((resolve, reject) => {
+        connection.query("SELECT username FROM user_team WHERE teamname = ?", [teamName], (err, result) => {
+            if (err) reject(err)
+            resolve(result)
+        })
     })
 }
