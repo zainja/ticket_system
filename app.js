@@ -6,6 +6,7 @@ const authRouter = require("./routes/auth");
 const teamRouter = require('./routes/team')
 const userRouter = require('./routes/user')
 const teamOPRouter = require('./routes/teamOperations')
+const taskRouter = require('./routes/task')
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -15,6 +16,7 @@ app.use('/auth', authRouter)
 app.use('/team', teamRouter )
 app.use('/user', userRouter )
 app.use('/team-users', teamOPRouter)
+app.use('/task', taskRouter)
 const port = 5000 | process.env.PORT
 app.listen(port)
 module.exports = app;
