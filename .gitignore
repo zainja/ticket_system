@@ -6,3 +6,4 @@ backend/config.js
 backend/test.http
 backend/.env
 backend/reqTest.py
+.idea
