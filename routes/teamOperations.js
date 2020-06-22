@@ -11,6 +11,7 @@ router.post("/get-all-users", tokenAuth, async (req, res) =>{
         const users = await teamMemberOperations.getUsers(username, teamName)
         res.send({users: users})
     }catch (e) {
-        res.sendStatus(500)
+        res.sendStatus(400)
     }
 })
+module.exports = router

@@ -1,7 +1,6 @@
 const mysql = require('mysql')
 const connection = require('../connection')
 
-connection.connect()
 exports.register = (usersSet) => {
     return new Promise((resolve, reject) => {
         connection.query("INSERT INTO users SET ?",

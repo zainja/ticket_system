@@ -11,5 +11,5 @@ mysqlInfo = {
 }
 // connection set up
 const connection = mysql.createConnection(mysqlInfo)
-
+connection.connect()
 module.exports = connection

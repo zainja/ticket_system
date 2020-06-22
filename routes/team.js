@@ -4,7 +4,7 @@ const teamQueries = require('../query/team')
 const teamMemberOperations = require('../query/teamMemberOpeartions')
 const router = express.Router();
 const tokenAuth = require('../tokenAuth')
-router.post("/create-team/", tokenAuth, async (req, res) => {
+router.post("/create/", tokenAuth, async (req, res) => {
     const username = req.user
     const {teamName} = req.body
     const teamObj = {
@@ -15,20 +15,20 @@ router.post("/create-team/", tokenAuth, async (req, res) => {
         await teamQueries.createTeam(teamObj)
         res.sendStatus(200)
     }catch (e) {
-        res.send({"code": 200, "error" : e})
+        res.status(409).send(e)
     }
-
 
 } )
 
-// TODO[1] check to better authorize it
-router.post("/delete-team", tokenAuth, async (req, res) =>{
-    const {teamName} = req.body
+
+router.delete("/:teamName", tokenAuth, async (req, res) =>{
+    let teamName = req.params.teamName.replace("&", " ")
+
     try{
         await teamQueries.deleteTeam(teamName)
         res.sendStatus(200)
     }catch (e) {
-        res.send({"code": 200, "error" : e})
+        res.send(e)
     }
 })
 // get all teams the user created
@@ -38,12 +38,15 @@ router.get("/all", tokenAuth, async (req, res) => {
         const result = await teamQueries.getTeams(teamLeader)
         res.json({"teams": result})
     }catch (e) {
-        res.send(e)
+        res.status(404).send(e)
     }
 })
-router.post("/edit-name", tokenAuth, async (req, res) => {
+
+// changing the name of a team
+router.put("/:teamName", tokenAuth, async (req, res) => {
     try {
-        const {oldTeamName, newTeamName} = req.body
+        let teamName = req.params.teamName.replace("&", " ")
+        const {oldTeamName} = req.body
         await teamQueries.changeTeamName(oldTeamName, newTeamName)
         res.sendStatus(200)
     }catch (e) {
@@ -51,23 +54,24 @@ router.post("/edit-name", tokenAuth, async (req, res) => {
     }
 })
 
-router.post("/add-member", tokenAuth, async (req, res) =>{
-    const {teamName, teamMember} = req.body
+router.put("/add-member/:teamName", tokenAuth, async (req, res) =>{
+    let teamName = req.params.teamName.replace("&", " ")
+    const {teamMember} = req.body
     try {
         await teamQueries.addMember(teamMember, teamName)
         res.sendStatus(200)
     }catch (e) {
-        res.send(e)
+        res.sendStatus(400)
     }
 } )
 
-router.post("/get-members", tokenAuth, async (req, res) => {
-    const {teamName} = req.body
+router.get("/users/:teamName", tokenAuth, async (req, res) => {
+    let teamName = req.params.teamName.replace("&", " ")
     try {
         const teamMembers = await teamQueries.getTeamMembers(teamName)
         res.send({"teamMembers": teamMembers})
     }catch (e) {
-        res.sendStatus(500)
+        res.sendStatus(400)
     }
 })
 module.exports = router

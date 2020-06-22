@@ -1,6 +1,8 @@
 const mysql = require('mysql')
 const connection = require('../connection')
-connection.connect()
+// connection.connect((err) => {
+//     if (err) console.log(err)
+// })
 // FROM THE team leader
 // TODO[2] search how to make a search query
 exports.searchUser = (name) => {
@@ -15,7 +17,7 @@ exports.searchUser = (name) => {
 
 exports.getUsers = (leader, team) => {
     return new Promise( (resolve, reject) => {
-        connection.query("SELECT username From users LEFT JOIN user_team ON users.username = test.user_team.username AND user_team.teamname != ? WHERE test.users.username != ?",[team, leader], (err, result) => {
+        connection.query("SELECT users.username From users LEFT JOIN user_team ON users.username = user_team.username AND user_team.teamname != ? WHERE users.username != ?",[team, leader], (err, result) => {
             if (err) reject(err)
             resolve(result)
         })
