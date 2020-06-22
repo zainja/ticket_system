@@ -20,6 +20,16 @@ exports.assignTask = (task_id, username) => {
     })
 }
 
+exports.deleteUserFromTask = (taskID, username) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`DELETE FROM user_task 
+                                WHERE task_id = ?
+                                AND username = ?`, [taskID, username],(err, result) =>{
+            if (err) reject(err)
+            resolve(result)
+        })
+    })
+}
 exports.changeTaskStatus = (task_id, status) => {
     return new Promise((resolve, reject) => {
         connection.query("UPDATE task SET status = ? WHERE task_id = ? ", [], (err, result) => {
