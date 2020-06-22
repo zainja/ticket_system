@@ -1,8 +1,8 @@
 # Project exclude paths
-/node_modules/
-.idea/*
-bin/
-config.js
-test.http
-.env
-reqTest.py
+backend/node_modules/
+backend/.idea/*
+backend/bin/
+backend/config.js
+backend/test.http
+backend/.env
+backend/reqTest.py
