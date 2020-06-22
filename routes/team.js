@@ -54,25 +54,4 @@ router.put("/:teamName", tokenAuth, async (req, res) => {
         res.send(e)
     }
 })
-
-router.put("/add-member/:teamName", tokenAuth, async (req, res) =>{
-    let teamName = req.params.teamName.replace("&", " ")
-    const {teamMember} = req.body
-    try {
-        await teamQueries.addMember(teamMember, teamName)
-        res.sendStatus(200)
-    }catch (e) {
-        res.sendStatus(400)
-    }
-} )
-
-router.get("/users/:teamName", tokenAuth, async (req, res) => {
-    let teamName = req.params.teamName.replace("&", " ")
-    try {
-        const teamMembers = await teamQueries.getTeamMembers(teamName)
-        res.send({"teamMembers": teamMembers})
-    }catch (e) {
-        res.sendStatus(400)
-    }
-})
 module.exports = router

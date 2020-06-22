@@ -23,3 +23,34 @@ exports.getUsers = (leader, team) => {
         })
     })
 }
+
+
+exports.addMember = (member, teamName) => {
+    return new Promise((resolve, reject) => {
+        connection.query("INSERT INTO user_team (username, teamname, user_status) VALUES ( ? , ? , 'pending')", [member, teamName]
+            ,(err, result) => {
+                if (err) reject(err)
+                resolve(result)
+            })
+    })
+}
+
+exports.getTeamMembers = (teamName) =>{
+    return new Promise((resolve, reject) => {
+        connection.query("SELECT username FROM user_team WHERE teamname = ?", [teamName], (err, result) => {
+            if (err) reject(err)
+            resolve(result)
+        })
+    })
+}
+
+exports.removeMember = (teamname, member) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`DELETE FROM user_team
+                                WHERE teamname = ? 
+                                AND username = ?`,[teamname, member], (err, result) => {
+            if (err) reject(err)
+            resolve(result)
+        })
+    })
+}
