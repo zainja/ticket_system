@@ -3,6 +3,8 @@ const express = require('express')
 const router = express.Router();
 const tokenAuth = require('../tokenAuth')
 const userOperations = require('../query/userTeamOperations')
+const {leaveTeam} = require("../query/userTeamOperations");
+const {getAllTeamsUserIn} = require("../query/userTeamOperations");
 
 router.post("/accept", tokenAuth, async (req, res) =>{
     const username = req.user
@@ -37,12 +39,12 @@ router.post("/leave", tokenAuth, async (req, res) =>{
 })
 
 router.get("/all", tokenAuth, async (req, res) =>{
-    const username = req.body
+    const username = req.user
     try {
         const teams = getAllTeamsUserIn(username)
         res.send({teams: teams})
     }catch (e) {
-        res.send(500)
+        res.status(404).send(e)
     }
 })
 

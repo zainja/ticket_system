@@ -24,7 +24,6 @@ const comparePasswords = (password, hash) => {
 }
 
 
-router.get("/", (req, res) => res.send("Worked"))
 
 router.post("/register",async (req, res) => {
     const {userName, firstName, lastName, password} = req.body

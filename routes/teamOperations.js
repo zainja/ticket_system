@@ -4,8 +4,8 @@ const teamMemberOperations = require('../query/teamMemberOpeartions')
 const router = express.Router();
 const tokenAuth = require('../tokenAuth')
 
-router.post("/get-all-users", tokenAuth, async (req, res) =>{
-    const {teamName} = req.body
+router.get("/:teamName", tokenAuth, async (req, res) =>{
+    let teamName = req.params.teamName.replace("&", " ")
     const username = req.user
     try {
         const users = await teamMemberOperations.getUsers(username, teamName)

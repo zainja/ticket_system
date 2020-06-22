@@ -15,7 +15,8 @@ router.post("/create/", tokenAuth, async (req, res) => {
         await teamQueries.createTeam(teamObj)
         res.sendStatus(200)
     }catch (e) {
-        res.status(409).send(e)
+        res.status(409)
+        res.send({"error": e})
     }
 
 } )
@@ -45,8 +46,8 @@ router.get("/all", tokenAuth, async (req, res) => {
 // changing the name of a team
 router.put("/:teamName", tokenAuth, async (req, res) => {
     try {
-        let teamName = req.params.teamName.replace("&", " ")
-        const {oldTeamName} = req.body
+        let oldTeamName = req.params.teamName.replace("&", " ")
+        const {newTeamName} = req.body
         await teamQueries.changeTeamName(oldTeamName, newTeamName)
         res.sendStatus(200)
     }catch (e) {
