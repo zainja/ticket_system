@@ -1,13 +1,14 @@
 const express = require('express');
 const path = require('path');
-
 const indexRouter = require('./routes/index');
 const authRouter = require("./routes/auth");
 const teamRouter = require('./routes/team')
 const userRouter = require('./routes/user')
 const teamOPRouter = require('./routes/teamOperations')
 const taskRouter = require('./routes/task')
+const cors = require('cors')
 const app = express();
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));

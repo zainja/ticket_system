@@ -8,7 +8,7 @@ exports.createTeam = (teamObj) => {
 
     return new Promise((resolve, reject) => {
 
-        connection.query("INSERT INTO team SET ?", teamObj,(err, result) =>{
+        connection.query("INSERT INTO team SET ? ", teamObj,(err, result) =>{
             if (err) reject(err)
             resolve(result)
         } )
