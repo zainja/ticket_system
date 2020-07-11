@@ -6,8 +6,7 @@ import axios from 'axios'
 
 const storeData = async (value, key) => {
   try {
-    const jsonValue = JSON.stringify(value)
-    await AsyncStorage.setItem(key, jsonValue)
+    await AsyncStorage.setItem(key, value)
   } catch (e) {
       throw e
   }
@@ -19,11 +18,11 @@ const Login = (props) => {
     const [err, setErr] = useState("")
     const submit = () => {
         if (username !== "" && password !== ""){
-            console.log(password)
             const details = {userName: username, password: password}
             axios.post("http://localhost:5000/auth/login", details)
                 .then(res => res.data)
                 .then(data => {
+                    console.log(data.accessToken)
                     storeData(data.accessToken, "TOKEN")
                     navigation.replace("Main")
                 }).catch(err => setErr("Incorrect username or password"))
