@@ -1,38 +1,29 @@
-import {StatusBar} from 'expo-status-bar';
+import 'react-native-gesture-handler';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
-import styles from "./styles/stylesheet";
 import SplashScreen from "./components/SplashScreen"
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Register from "./components/Register";
+const Stack = createStackNavigator();
 export default function App() {
     const [loading, setLoading] = useState(true)
     const [isUser, setIsUser] = useState(false)
-    useEffect(() => {
-        const fetchToken = async () => {
-            try {
-                const token = await AsyncStorage.getItem('TOKEN');
-                if (token === null) {
-                    setIsUser(false)
-                }else {
-                    setIsUser(true)
-                }
-            } catch (e) {
-                setLoading(true)
-            }
-        }
-        setTimeout(() => setLoading(false),2000)
-        fetchToken()
-
-    }, [])
-    if (loading) {
-        return <SplashScreen/>
-    }
     return (
-        <View
-            style={styles.container}>
-            <Text>Open up App.js to start working on your app!</Text>
-            <StatusBar style="auto"/>
-        </View>
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Splash"
+                              options={{
+                                  title: ''}}
+                              component={SplashScreen}/>
+
+                <Stack.Screen name="Login" component={Login}/>
+                <Stack.Screen name="Main" component={Home}/>
+                <Stack.Screen name="Register" component={Register}/>
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }
 
