@@ -41,7 +41,7 @@ router.post("/leave", tokenAuth, async (req, res) =>{
 router.get("/all", tokenAuth, async (req, res) =>{
     const username = req.user
     try {
-        const teams = getAllTeamsUserIn(username)
+        const teams = await getAllTeamsUserIn(username)
         res.send({teams: teams})
     }catch (e) {
         res.status(404).send(e)
