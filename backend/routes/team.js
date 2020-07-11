@@ -36,7 +36,7 @@ router.delete("/:teamName", tokenAuth, async (req, res) =>{
 router.get("/all", tokenAuth, async (req, res) => {
     const teamLeader = req.user
     try {
-        const result = await teamQueries.getTeams(teamLeader)
+        const result = await teamQueries.getTeamsUserCreated(teamLeader)
         res.json({"teams": result})
     }catch (e) {
         res.status(404).send(e)

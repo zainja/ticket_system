@@ -15,7 +15,7 @@ exports.createTeam = (teamObj) => {
     })
 }
 
-exports.getTeams = (creatorUsername) => {
+exports.getTeamsUserCreated = (creatorUsername) => {
     return new Promise((resolve, reject) => {
 
         connection.query("SELECT team_name FROM team WHERE team_leader = ?", [creatorUsername], (err, result) =>{

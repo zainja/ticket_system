@@ -47,6 +47,7 @@ router.post("/register",async (req, res) => {
 
 router.post("/login",  async (req, res) => {
     const {userName, password} = req.body
+    console.log(req.body)
     try {
         const result = await authentication.login(userName)
         if (result.length > 0){

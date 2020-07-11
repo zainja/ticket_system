@@ -4,6 +4,7 @@ const teamMemberOperations = require('../query/teamMemberOpeartions')
 const router = express.Router();
 const tokenAuth = require('../tokenAuth')
 
+// get possible people to add to the team
 router.get("/:teamName", tokenAuth, async (req, res) =>{
     let teamName = req.params.teamName.replace("&", " ")
     const username = req.user
@@ -14,7 +15,7 @@ router.get("/:teamName", tokenAuth, async (req, res) =>{
         res.sendStatus(400)
     }
 })
-
+// add team member
 router.put("/:teamName", tokenAuth, async (req, res) =>{
     let teamName = req.params.teamName.replace("&", " ")
     const {teamMember} = req.body
@@ -35,6 +36,7 @@ router.patch("/delete-member/:teamName", tokenAuth, async (req, res) => {
         res.send({error: e})
     }
 })
+
 router.get("/users/:teamName", tokenAuth, async (req, res) => {
     let teamName = req.params.teamName.replace("&", " ")
     try {
