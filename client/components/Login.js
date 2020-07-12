@@ -4,13 +4,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import styles from "../styles/stylesheet";
 import axios from 'axios'
 
-const storeData = async (value, key) => {
-  try {
-    await AsyncStorage.setItem(key, value)
-  } catch (e) {
-      throw e
-  }
-}
+const {storeItem} = require("../dataManagement");
+
 const Login = (props) => {
     const {navigation} = props
     const [username, setUsername] = useState("")
@@ -22,9 +17,7 @@ const Login = (props) => {
             axios.post("http://localhost:5000/auth/login", details)
                 .then(res => res.data)
                 .then(data => {
-                    console.log(data.accessToken)
-                    storeData(data.accessToken, "TOKEN")
-                    navigation.replace("Main")
+                    storeItem(data.accessToken, "TOKEN").then(r => navigation.replace("Splash"))
                 }).catch(err => setErr("Incorrect username or password"))
         }
     }
