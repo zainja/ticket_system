@@ -70,10 +70,10 @@ router.get("/open/:teamname", tokenAuth, async (req, res) => {
     }
 })
 router.get("/getAllTasks", tokenAuth, async (req, res) => {
-    const {username} = req.user
+    const username = req.user
     try {
         const tasks = await taskOperations.getAllUserTasks(username)
-        await res.json(tasks)
+        await res.send({tasks: tasks})
     } catch (e) {
         res.status(404)
         res.send({error: e})

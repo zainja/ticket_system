@@ -17,6 +17,7 @@ module.exports.getJSON = async (key) => {
 }
 
 module.exports.storeJSON = async (key, value) => {
+    console.log(key)
     const jsonValue = JSON.stringify(value)
     await AsyncStorage.setItem(key, jsonValue)
 }

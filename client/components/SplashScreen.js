@@ -13,17 +13,17 @@ const SplashScreen = (props) => {
     useEffect(() => {
         getItem("TOKEN").then(
             token => {
+                console.log(token)
                 axios.all([
                     axios.get('http://localhost:5000/user/all', AuthHead(token)),
+                    axios.get('http://localhost:5000/task/getAllTasks', AuthHead(token)),
+                    axios.get('http://localhost:5000/team/all', AuthHead(token))
                 ],).then(result => {
-                    console.log(result.data)
-                    result.data
-                })
-                    .then(data => {
-                        storeJSON("HomeItems", data)
-                        props.navigation.replace("Main")
-
-                    }).catch(err => throw "error")
+                    storeJSON("Teams", result[0].data)
+                    storeJSON("Tasks", result[1].data)
+                    storeJSON("CreatedTeams", result[2].data)
+                    props.navigation.replace("Main")
+                }).catch(err => props.navigation.replace("Login"))
             }
         ).catch(err => props.navigation.replace("Login"))
     }, [])

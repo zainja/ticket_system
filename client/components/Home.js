@@ -2,15 +2,17 @@ import React, {useEffect} from 'react'
 import {View, Text} from 'react-native'
 import styles from "../styles/stylesheet";
 import {StatusBar} from 'expo-status-bar';
-
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Teams from "./HomeTabs/Teams";
+import Tasks from "./HomeTabs/Tasks";
+const Tab = createMaterialTopTabNavigator();
 const Home = () => {
 
     return (
-        <View
-            style={styles.container}>
-            <Text>Open up App.js to start working on your app!</Text>
-            <StatusBar style="auto"/>
-        </View>
+        <Tab.Navigator>
+            <Tab.Screen name={"Teams"} component={Teams}/>
+            <Tab.Screen name="Tasks" component={Tasks}/>
+        </Tab.Navigator>
     )
 }
 export default Home

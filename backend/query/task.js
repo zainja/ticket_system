@@ -116,10 +116,11 @@ exports.getAssignedUsersForTask = (task_id) => {
 
 exports.getAllUserTasks = (username) => {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT team_name, task_name FROM task
-                                RIGHT JOIN user_task ut ON task.task_id = ut.task_id 
-                                AND ut.username = ?`,[username],(err, result) => {
+        connection.query(`SELECT * FROM task
+                                RIGHT JOIN user_task ON task.task_id = user_task.task_id
+                                WHERE user_task.username=?`,[username],(err, result) => {
             if (err) reject(err)
+            console.log(result)
             resolve(result)
         })
     })
