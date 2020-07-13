@@ -12,7 +12,7 @@ exports.createTask = (task_name, start_date, end_date, teamname) => {
 
 exports.assignTask = (task_id, username) => {
     return new Promise((resolve, reject) => {
-        connection.query("INSERT INTO user_task (username, task_id) VALUES (?, ?)", [task_id, username],
+        connection.query("INSERT INTO user_task (username, task_id) VALUES (?, ?)", [username, task_id],
             (err, result) => {
                 if (err) reject(err)
                 resolve(result)
