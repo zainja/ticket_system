@@ -4,11 +4,10 @@ import {View, Text} from "react-native";
 const {getJSON} = require("../../dataManagement");
 const Tasks = () => {
     const [tasks, setTasks] = useState([])
-    useEffect(() => {
-        getJSON("Tasks").then(result => {
-            console.log(result)
-        }).catch(err => console.log("empty"))
-    })
+    // useEffect(() => {
+    //     getJSON("Tasks").then(result => {
+    //     }).catch(err => console.log("empty"))
+    // })
     return (
         <View>
             <Text>Tasks</Text>

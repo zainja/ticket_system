@@ -9,7 +9,7 @@ module.exports.getItem = async (key) => {
 }
 
 module.exports.getJSON = async (key) => {
-    const value = await AsyncStorage.getItem('TOKEN')
+    const value = await AsyncStorage.getItem(key)
     if (value === null){
         return Promise.reject()
     }
@@ -17,7 +17,6 @@ module.exports.getJSON = async (key) => {
 }
 
 module.exports.storeJSON = async (key, value) => {
-    console.log(key)
     const jsonValue = JSON.stringify(value)
     await AsyncStorage.setItem(key, jsonValue)
 }
