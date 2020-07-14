@@ -1,10 +1,14 @@
 import React,{useState, useEffect} from "react";
 import {View, Text} from "react-native";
-import {Button} from "react-native-material-ui";
 import TeamCard from "../Cards/TeamCard";
 
 const {getJSON} = require("../../dataManagement");
 const Teams = () => {
+
+    const teamInfo= (teamName) => {
+
+    }
+
     const [teams, setTeams] = useState([])
     useEffect(() => {
         getJSON("Teams").then(data => {
@@ -15,7 +19,10 @@ const Teams = () => {
     if (teams !== null){
         const teamsList = teams.map(team => {
             return (
-               <TeamCard key={teams.indexOf(team)} team={team}/>
+               <TeamCard key={teams.indexOf(team)}
+                         team={team}
+               onClick={teamInfo()}
+               />
             )
         })
         return (

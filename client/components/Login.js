@@ -12,7 +12,7 @@ const Login = (props) => {
     const [password, setPassword] = useState("")
     const [err, setErr] = useState("")
     const submit = () => {
-        if (username !== "" && password !== ""){
+        if (username !== "" && password !== "") {
             const details = {userName: username, password: password}
             axios.post("http://localhost:5000/auth/login", details)
                 .then(res => res.data)
