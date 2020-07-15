@@ -1,12 +1,11 @@
 import React,{useState, useEffect} from "react";
-import {View, Text} from "react-native";
+import {View} from "react-native";
 import TeamCard from "../Cards/TeamCard";
 
 const {getJSON} = require("../../dataManagement");
 const Teams = () => {
 
     const teamInfo= (teamName) => {
-
     }
 
     const [teams, setTeams] = useState([])
@@ -21,7 +20,7 @@ const Teams = () => {
             return (
                <TeamCard key={teams.indexOf(team)}
                          team={team}
-               onClick={teamInfo()}
+               onClick={teamInfo}
                />
             )
         })
