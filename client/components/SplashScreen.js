@@ -13,7 +13,6 @@ const SplashScreen = (props) => {
     useEffect(() => {
         getItem("TOKEN").then(
             token => {
-                console.log(token)
                 axios.all([
                     axios.get('http://localhost:5000/user/all', AuthHead(token)),
                     axios.get('http://localhost:5000/task/getAllTasks', AuthHead(token)),
@@ -22,8 +21,8 @@ const SplashScreen = (props) => {
                     storeJSON("Teams", result[0].data)
                     storeJSON("Tasks", result[1].data)
                     storeJSON("CreatedTeams", result[2].data)
-                    props.navigation.replace("Main")
-                }).catch(err => props.navigation.replace("Login"))
+                    props.navigation.replace("Main",{token: token})
+                }).catch(err => console.log(err))
             }
         ).catch(err => props.navigation.replace("Login"))
     }, [])

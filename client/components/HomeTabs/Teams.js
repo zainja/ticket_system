@@ -3,8 +3,8 @@ import {View} from "react-native";
 import TeamCard from "../Cards/TeamCard";
 
 const {getJSON} = require("../../dataManagement");
-const Teams = () => {
-
+const Teams = (props) => {
+    console.log(props.navigation.initialParams)
     const teamInfo= (teamName) => {
     }
 
