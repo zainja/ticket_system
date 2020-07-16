@@ -18,22 +18,6 @@ const Teams = (props) => {
         }).catch(err => setTeams([]))
     }, [])
 
-    // if (teams !== null) {
-    //     const teamsList = teams.map(team => {
-    //         return (
-    //             <TeamCard key={teams.indexOf(team)}
-    //                       team={team}
-    //                       onClick={teamInfo}
-    //             />
-    //         )
-    //     })
-    //
-    //     return (
-    //         <View>
-    //             {teamsList}
-    //         </View>
-    //     )
-    // }
     let teamList = []
     let teamPendingList = []
     teams.forEach(team => {
@@ -48,6 +32,7 @@ const Teams = (props) => {
             teamList.push(<TeamCard key={teams.indexOf(team)}
                                     team={team}
                                     onClick={teamInfo}
+                                    status="joined"
             />)
         }
     })
