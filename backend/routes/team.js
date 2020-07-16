@@ -37,7 +37,7 @@ router.get("/all", tokenAuth, async (req, res) => {
     const teamLeader = req.user
     try {
         const result = await teamQueries.getTeamsUserCreated(teamLeader)
-        res.json({"teams": result})
+        await res.json({"teams": result})
     }catch (e) {
         res.status(404).send(e)
     }

@@ -47,6 +47,15 @@ const styles = StyleSheet.create({
     LoginButtonText: {
         fontSize: 20,
         color: "white"
+    },
+    sectionContainer: {
+        flex: 1,
+        flexDirection: "column",
+        alignItems: "stretch",
+        justifyContent: "flex-start"
+    },
+    sectionTitle: {
+
     }
 });
 export default styles

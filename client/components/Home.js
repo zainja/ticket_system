@@ -1,25 +1,15 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import Teams from "./HomeTabs/Teams";
 import Tasks from "./HomeTabs/Tasks";
-import {ThemeProvider} from "react-native-elements";
+import TeamsNav from "./HomeTabs/Team/TeamNav";
 
 const Tab = createMaterialTopTabNavigator();
 const Home = ({route, navigation}) => {
-    const {token} = route.params
-    console.log(token)
     return (
-        <ThemeProvider>
-            <Tab.Navigator>
-                <Tab.Screen name={"Teams"} component={Teams} params={{
-                    token: token
-                }}/>
-                <Tab.Screen name="Tasks" component={Tasks} initialParams={{
-                    token: token
-                }}/>
-            </Tab.Navigator>
-        </ThemeProvider>
-
+        <Tab.Navigator>
+            <Tab.Screen name="TeamsNav" component={TeamsNav}/>
+            <Tab.Screen name="Tasks" component={Tasks}/>
+        </Tab.Navigator>
     )
 }
 export default Home

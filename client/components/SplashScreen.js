@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {View, Text} from 'react-native'
 import styles from "../styles/stylesheet";
-import AsyncStorage from "@react-native-community/async-storage";
 import axios from 'axios'
 import AuthHead from "../AuthHeader";
 import {getItem} from "../dataManagement"

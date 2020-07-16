@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import {View, Text, TextInput, TouchableOpacity} from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage';
 import styles from "../styles/stylesheet";
 import axios from 'axios'
 
