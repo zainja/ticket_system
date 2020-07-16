@@ -27,7 +27,7 @@ router.put("/:teamName", tokenAuth, async (req, res) =>{
     }
 } )
 router.patch("/delete-member/:teamName", tokenAuth, async (req, res) => {
-    let teamName = req.params.teamName.replace("&", " ")
+    let teamName = req.params.teamName.replace(/&/g, " ")
     const {teamMember} = req.body
     try {
         await teamMemberOperations.removeMember(teamName, teamMember)

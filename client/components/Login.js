@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import {View, Text, TextInput, TouchableOpacity} from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage';
 import styles from "../styles/stylesheet";
 import axios from 'axios'
 
@@ -17,7 +16,8 @@ const Login = (props) => {
             axios.post("http://localhost:5000/auth/login", details)
                 .then(res => res.data)
                 .then(data => {
-                    storeItem(data.accessToken, "TOKEN").then(r => navigation.replace("Splash"))
+                    console.log(data)
+                    storeItem("TOKEN", data.accessToken).then(r => navigation.replace("Splash"))
                 }).catch(err => setErr("Incorrect username or password"))
         }
     }

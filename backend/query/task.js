@@ -48,10 +48,7 @@ exports.getTeamTasks = (teamname) => {
     const sql = "SELECT task_name, start_date, end_date, creation_date" +
         "FROM task"
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT task_name,
-                                 start_date,
-                                 end_date,
-                                 creation_date
+        connection.query(`SELECT *
                                 FROM task
                                 WHERE team_name = ?`,
             [teamname], (err, result) => {
@@ -62,11 +59,7 @@ exports.getTeamTasks = (teamname) => {
 }
 exports.getOpenTasks = (teamname) => {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT task_name,
-                                 start_date,
-                                 end_date,
-                                 creation_date,
-                                 status
+        connection.query(`SELECT *
                                 FROM task
                                 WHERE team_name = ?
                                 AND status = 'open'`,
@@ -79,11 +72,7 @@ exports.getOpenTasks = (teamname) => {
 
 exports.getClosedTasks = (teamname) => {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT task_name,
-                                 start_date,
-                                 end_date,
-                                 creation_date,
-                                 status
+        connection.query(`SELECT *
                                 FROM task
                                 WHERE team_name = ?
                                 AND status = 'closed'`,

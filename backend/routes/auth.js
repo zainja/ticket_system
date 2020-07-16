@@ -53,7 +53,7 @@ router.post("/login",  async (req, res) => {
         if (result.length > 0){
             if(await comparePasswords(password, result[0].encrypted_password)){
                 const token = jwt.sign(userName, process.env.ACCESS_TOKEN_SECRET)
-                res.json({accessToken: token})
+                await res.json({accessToken: token})
             }else {
                 res.send({"code": 206, "result": "incorrect password"})
             }

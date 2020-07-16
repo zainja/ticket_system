@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from "react";
 import {TouchableOpacity, View} from "react-native";
-import {Card, Text} from "react-native-elements";
+import {Button, Card, Text} from "react-native-elements";
 
 const TeamCard = (props) => {
-    const {teamname, user_status, onClick} = props.team
+    const {teamname, user_status} = props.team
     return (
         <TouchableOpacity
-            onPress={() =>{onClick(teamname)}}
+            onPress={() => {
+                props.onClick(teamname)
+            }}
         >
             <Card>
                 <Text h4>

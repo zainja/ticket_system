@@ -15,7 +15,6 @@ const SplashScreen = (props) => {
     useEffect(() => {
         getItem("TOKEN").then(
             token => {
-                console.log(token)
                 axios.all([
                     axios.get('http://localhost:5000/user/all', AuthHead(token)),
                     axios.get('http://localhost:5000/task/getAllTasks', AuthHead(token)),
