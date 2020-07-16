@@ -6,6 +6,7 @@ import SplashScreen from "./components/SplashScreen"
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Button, {Text} from "react-native";
 
 const Stack = createStackNavigator();
 export default function App() {

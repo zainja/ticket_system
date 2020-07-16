@@ -17,6 +17,7 @@ const SplashScreen = (props) => {
                     axios.get('http://localhost:5000/task/getAllTasks', AuthHead(token)),
                     axios.get('http://localhost:5000/team/all', AuthHead(token))
                 ],).then(result => {
+                    console.log(result[0].data)
                     storeJSON("Teams", result[0].data)
                     storeJSON("Tasks", result[1].data)
                     storeJSON("CreatedTeams", result[2].data)
