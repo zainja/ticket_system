@@ -5,11 +5,13 @@ import AsyncStorage from "@react-native-community/async-storage";
 import axios from 'axios'
 import AuthHead from "../AuthHeader";
 import {getItem} from "../dataManagement"
+import {useDispatch} from "react-redux";
+import {addToken} from "../features/tokenSlice";
 
 const {storeJSON} = require("../dataManagement");
 
 const SplashScreen = (props) => {
-    const [homeData, setHomeData] = useState({})
+    const dispatch = useDispatch()
     useEffect(() => {
         getItem("TOKEN").then(
             token => {
@@ -22,6 +24,7 @@ const SplashScreen = (props) => {
                     storeJSON("Teams", result[0].data)
                     storeJSON("Tasks", result[1].data)
                     storeJSON("CreatedTeams", result[2].data)
+                    dispatch(addToken({value: token}))
                     props.navigation.replace("Main")
                 }).catch(err => props.navigation.replace("Login"))
             }

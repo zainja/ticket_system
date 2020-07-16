@@ -6,7 +6,7 @@ export const tokenSlice = createSlice({
     },
     reducers: {
         addToken: (state, action) => {
-            state.value = action.payload
+            return state = action.payload
         },
         removeToken: state => state.value = ""
     }
