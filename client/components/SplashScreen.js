@@ -4,21 +4,29 @@ import styles from "../styles/stylesheet";
 import axios from 'axios'
 import AuthHead from "../AuthHeader";
 import {getItem} from "../dataManagement"
+import {useDispatch} from "react-redux";
+import {addToken} from "../features/tokenSlice";
+import {setName} from "../features/userSlice";
 
 const {storeJSON} = require("../dataManagement");
 
 const SplashScreen = (props) => {
-    const [homeData, setHomeData] = useState({})
+    const dispatch = useDispatch()
     useEffect(() => {
         getItem("TOKEN").then(
             token => {
-                axios.all([
-                    axios.get('http://localhost:5000/user/all', AuthHead(token)),
-                    axios.get('http://localhost:5000/task/getAllTasks', AuthHead(token)),
-                    axios.get('http://localhost:5000/team/all', AuthHead(token))
-                ]).then(result => {
-                    props.navigation.replace("Main",{token: token})
-                }).catch(err => console.log(err))
+                axios.get("http:localhost:5000/user/", AuthHead(token))
+                    .then(result => result.data)
+                    .then(data => {
+                        dispatch(addToken({value: token}))
+                        const user = {
+                            firstName: data.user.first_name,
+                            lastName: data.user.last_name,
+                            userName: data.user.username
+                        }
+                        dispatch(setName(user))
+                        props.navigation.replace("Main")
+                    })
             }
         ).catch(err => props.navigation.replace("Login"))
     }, [])
