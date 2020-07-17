@@ -3,31 +3,43 @@ import {ScrollView, View} from "react-native";
 import TeamCard from "../../Cards/TeamCard";
 import {Divider, Text} from "react-native-elements";
 import styles from "../../../styles/stylesheet";
-const {getJSON} = require("../../../dataManagement");
 
+const {getJSON} = require("../../../dataManagement");
+import {useSelector} from "react-redux";
+import {selectToken} from "../../../features/tokenSlice";
+import AuthHead from "../../../AuthHeader";
+import axios from 'axios'
 
 const Teams = (props) => {
+    const selector = useSelector(selectToken)
     const {navigation} = props
     const teamInfo = (teamName) => {
+        navigation.navigate("TeamInfo", {
+            teamName: teamName,
+            token: selector.value
+        })
     }
 
     const [teams, setTeams] = useState([])
     useEffect(() => {
-        getJSON("Teams").then(data => {
-            setTeams(data.teams)
-        }).catch(err => setTeams([]))
+        axios.get('http://localhost:5000/user/all', AuthHead(selector.value))
+            .then(result => result.data)
+            .then(data => {
+                setTeams(data.teams)
+            }).catch(err => setTeams([]))
     }, [])
 
     let teamList = []
     let teamPendingList = []
     teams.forEach(team => {
         if (team.user_status === 'pending') {
-            teamPendingList.push(<TeamCard
-                key={teams.indexOf(team)}
-                team={team}
-                onClick={teamInfo}
-                status="pending"
-            />)
+            teamPendingList.push(
+                <TeamCard
+                    key={teams.indexOf(team)}
+                    team={team}
+                    onClick={teamInfo}
+                    status="pending"
+                />)
         } else {
             teamList.push(<TeamCard key={teams.indexOf(team)}
                                     team={team}
