@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, Text, TextInput, TouchableOpacity} from 'react-native'
+import {View, Text, TextInput, TouchableOpacity, ScrollView} from 'react-native'
 import styles from "../styles/stylesheet";
 import axios from 'axios';
 
@@ -32,46 +32,48 @@ const Register = ({navigation}) => {
         }
     }
     return (
-        <View style={{flex: 2, alignItems: "stretch"}}>
-            <View style={styles.form}>
-                <Text>{err}</Text>
+        <ScrollView>
+            <View style={{flex: 2, alignItems: "stretch"}}>
+                <View style={styles.form}>
+                    <Text>{err}</Text>
 
-                <Text style={styles.label}>First Name</Text>
-                <TextInput style={styles.input}
-                           placeholder="Enter First Name"
-                           onChangeText={text => setFirstName(text)}
-                           value={firstName}/>
-                <Text style={styles.label}>Last Name</Text>
-                <TextInput style={styles.input}
-                           placeholder="Enter Last Name"
-                           onChangeText={text => setLastName(text)}
-                           value={lastName}/>
-                <Text style={styles.label}>Username</Text>
-                <TextInput style={styles.input}
-                           placeholder="Enter User Name"
-                           onChangeText={text => setUsername(text)}
-                           value={username}/>
-                <Text style={styles.label}>Password</Text>
-                <TextInput style={styles.input}
-                           secureTextEntry={true}
-                           placeholder="Enter Password"
-                           onChangeText={text => setPassword(text)}
-                           value={password}
-                />
-                <Text style={styles.label}>Confirm Password</Text>
-                <TextInput style={styles.input}
-                           secureTextEntry={true}
-                           placeholder="Confirm Password"
-                           onChangeText={text => setConfirmPassword(text)}
-                           value={password}
-                />
-                <TouchableOpacity
-                    style={styles.loginButton}
-                    onPress={submit}>
-                    <Text style={styles.LoginButtonText}>Login</Text>
-                </TouchableOpacity>
+                    <Text style={styles.label}>First Name</Text>
+                    <TextInput style={styles.input}
+                               placeholder="Enter First Name"
+                               onChangeText={text => setFirstName(text)}
+                               value={firstName}/>
+                    <Text style={styles.label}>Last Name</Text>
+                    <TextInput style={styles.input}
+                               placeholder="Enter Last Name"
+                               onChangeText={text => setLastName(text)}
+                               value={lastName}/>
+                    <Text style={styles.label}>Username</Text>
+                    <TextInput style={styles.input}
+                               placeholder="Enter User Name"
+                               onChangeText={text => setUsername(text)}
+                               value={username}/>
+                    <Text style={styles.label}>Password</Text>
+                    <TextInput style={styles.input}
+                               secureTextEntry={true}
+                               placeholder="Enter Password"
+                               onChangeText={text => setPassword(text)}
+                               value={password}
+                    />
+                    <Text style={styles.label}>Confirm Password</Text>
+                    <TextInput style={styles.input}
+                               secureTextEntry={true}
+                               placeholder="Confirm Password"
+                               onChangeText={text => setConfirmPassword(text)}
+                               value={confirmPassword}
+                    />
+                    <TouchableOpacity
+                        style={styles.loginButton}
+                        onPress={submit}>
+                        <Text style={styles.LoginButtonText}>Register</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 export default Register

@@ -5,7 +5,7 @@ const tokenAuth = require('../tokenAuth')
 const userOperations = require('../query/userTeamOperations')
 const {leaveTeam} = require("../query/userTeamOperations");
 const {getAllTeamsUserIn} = require("../query/userTeamOperations");
-
+const {login} = require("../query/authentication")
 router.post("/accept", tokenAuth, async (req, res) =>{
     const username = req.user
     const {teamName} = req.body
@@ -47,7 +47,15 @@ router.get("/all", tokenAuth, async (req, res) =>{
         res.status(404).send(e)
     }
 })
-
+router.get('/', tokenAuth, async (req, res) => {
+    const username = req.user
+    try{
+        const user = await login(username)
+        await res.send({user: user[0]})
+    }catch (e) {
+        res.status(404).send(e)
+    }
+})
 
 
 

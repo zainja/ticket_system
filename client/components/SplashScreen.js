@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import {View, Text} from 'react-native'
 import styles from "../styles/stylesheet";
-import AsyncStorage from "@react-native-community/async-storage";
 import axios from 'axios'
 import AuthHead from "../AuthHeader";
 import {getItem} from "../dataManagement"
 import {useDispatch} from "react-redux";
 import {addToken} from "../features/tokenSlice";
+import {setName} from "../features/userSlice";
 
 const {storeJSON} = require("../dataManagement");
 
@@ -15,8 +15,18 @@ const SplashScreen = (props) => {
     useEffect(() => {
         getItem("TOKEN").then(
             token => {
-                dispatch(addToken({value: token}))
-                props.navigation.replace("Main")
+                axios.get("http:localhost:5000/user/", AuthHead(token))
+                    .then(result => result.data)
+                    .then(data => {
+                        dispatch(addToken({value: token}))
+                        const user = {
+                            firstName: data.user.first_name,
+                            lastName: data.user.last_name,
+                            userName: data.user.username
+                        }
+                        dispatch(setName(user))
+                        props.navigation.replace("Main")
+                    })
             }
         ).catch(err => props.navigation.replace("Login"))
     }, [])
