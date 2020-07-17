@@ -7,7 +7,8 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import store from './app/store'
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
+import TeamInfo from "./components/HomeTabs/Team/TeamInfo";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -18,14 +19,14 @@ export default function App() {
             <NavigationContainer>
                 <Stack.Navigator
                     screenOptions={{
-                    headerStyle: {
-                        backgroundColor: '#f4511e',
-                    },
-                    headerTintColor: '#fff',
-                    headerTitleStyle: {
-                        fontWeight: 'bold',
-                    },
-                }}
+                        headerStyle: {
+                            backgroundColor: '#f4511e',
+                        },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                        },
+                    }}
                 >
                     <Stack.Screen name="Splash"
                                   options={{headerShown: false}}
@@ -34,6 +35,9 @@ export default function App() {
                     <Stack.Screen name="Login" component={Login}/>
                     <Stack.Screen name="Main" component={Home}/>
                     <Stack.Screen name="Register" component={Register}/>
+                    <Stack.Screen name="TeamInfo" component={TeamInfo}
+                        options={{title: "Team"}}/>
+
                 </Stack.Navigator>
             </NavigationContainer>
         </Provider>
