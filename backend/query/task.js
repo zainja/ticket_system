@@ -114,3 +114,17 @@ exports.getAllUserTasks = (username) => {
         })
     })
 }
+exports.deleteTasksAfterLeavingTeam = (username, teamname) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`DELETE user_task
+                                FROM user_task
+                                LEFT JOIN task t 
+                                ON user_task.task_id = t.task_id
+                                WHERE team_name= ? AND 
+                                      username = ?`,
+                        [teamname, username],(err, result) => {
+            if (err) reject(err)
+            resolve(result)
+            })
+    })
+}

@@ -82,7 +82,7 @@ router.get("/getAllTasks", tokenAuth, async (req, res) => {
 router.get("/users/:taskID", tokenAuth, async (req, res) => {
     const {taskID} = req.params
     try {
-        const tasks = await taskOperations.getAssignedUsersForTask(teamname)
+        const tasks = await taskOperations.getAssignedUsersForTask(taskID)
         await res.json(tasks)
     } catch (e) {
         res.status(404)
@@ -103,11 +103,21 @@ router.get("/closed/:teamname", tokenAuth, async (req, res) => {
 router.delete("/:taskID", tokenAuth, async (req, res) => {
     const {taskID} = req.params
     try {
-        await taskOperations.deleteTask(teamname)
+        await taskOperations.deleteTask(taskID)
+        res.send(200)
     } catch (e) {
         res.status(404)
         res.send({error: e})
     }
 })
-
+router.delete("/userLeave/:teamName", tokenAuth, async (req, res) => {
+    const username = req.user
+    const teamName = req.params.teamName
+    try{
+        await taskOperations.deleteTasksAfterLeavingTeam(username, teamName)
+        res.send(200)
+    }catch (e) {
+        res.send(500)
+    }
+})
 module.exports = router

@@ -10,7 +10,8 @@ router.post("/accept", tokenAuth, async (req, res) =>{
     const username = req.user
     const {teamName} = req.body
     try {
-        await  userOperations.acceptRequest(username, teamName)
+        await userOperations.acceptRequest(username, teamName)
+        res.send(200)
     }catch (e) {
         res.sendStatus(500)
     }
