@@ -3,6 +3,7 @@ import AuthHead from "../../../AuthHeader";
 import axios from 'axios'
 import {Button, ScrollView, View} from "react-native";
 import {Card, ListItem, Text} from "react-native-elements";
+
 const TeamInfo = ({route, navigation}) => {
     const {teamName, token, status} = route.params
     const [teamMembers, setTeamMembers] = useState([])
@@ -20,21 +21,26 @@ const TeamInfo = ({route, navigation}) => {
         }).catch(err => {
             console.log(err)
         })
-    },[])
+    }, [])
     const acceptRequest = () => {
-        axios.post("http://localhost:5000/user/accept",{
+        axios.post("http://localhost:5000/user/accept", {
             teamName: teamName
         }, AuthHead(token))
             .then(res => {
-                console.log("team joined")
                 navigation.navigate("Teams")
             })
             .catch(err => console.log("Failed to join"))
     }
 
     const leaveTeam = () => {
-        axios.post("http://localhost:5000/user/leave",{teamName: teamName},
-        AuthHead(token)).then()
+        axios.all(
+            [axios.post("http://localhost:5000/user/leave", {teamName: teamName},
+                AuthHead(token)),
+                axios.delete(`http://localhost:5000/task/userLeave/${teamName}`, AuthHead(token))])
+            .then(res => {
+                console.log("eeee")
+                navigation.goBack()}
+        ).catch(err => console.log(err.response))
     }
     const teamMemberCards = teamMembers.map(team => {
         const user = {firstName: team.first_name, lastName: team.last_name, username: team.username}
@@ -59,8 +65,7 @@ const TeamInfo = ({route, navigation}) => {
             </View>
             <View style={{flexDirection: "row", justifyContent: "space-evenly", alignItems: "stretch"}}>
                 <Button title="Accept" onPress={acceptRequest}/>
-                <Button title="Reject" onPress={() => {
-                }}/>
+                <Button title="Reject" onPress={leaveTeam}/>
             </View>
         </View>
     return (
@@ -79,7 +84,7 @@ const TeamInfo = ({route, navigation}) => {
                     {taskCards}
                 </ScrollView>
             </Card>
-            {status === "joined" ? <Button title="Leave the team" onPress={() => {}}/>: null}
+            {status === "joined" ? <Button title="Leave the team" onPress={leaveTeam}/> : null}
         </ScrollView>
     )
 }

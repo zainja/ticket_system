@@ -33,6 +33,7 @@ router.post("/leave", tokenAuth, async (req, res) =>{
     const {teamName} = req.body
     try {
         await leaveTeam(username, teamName)
+        res.send("left")
     }catch (e) {
         res.send(400)
     }
