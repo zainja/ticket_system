@@ -8,7 +8,6 @@ const TeamInfo = ({route, navigation}) => {
     const {teamName, token, status} = route.params
     const [teamMembers, setTeamMembers] = useState([])
     const [teamTasks, setTeamTasks] = useState([])
-
     useEffect(() => {
         const teamToSend = teamName.replace(/ /g, '&')
         axios.all([
@@ -38,9 +37,10 @@ const TeamInfo = ({route, navigation}) => {
                 AuthHead(token)),
                 axios.delete(`http://localhost:5000/task/userLeave/${teamName}`, AuthHead(token))])
             .then(res => {
-                console.log("eeee")
-                navigation.goBack()}
-        ).catch(err => console.log(err.response))
+                    console.log("eeee")
+                    navigation.goBack()
+                }
+            ).catch(err => console.log(err.response))
     }
     const teamMemberCards = teamMembers.map(team => {
         const user = {firstName: team.first_name, lastName: team.last_name, username: team.username}
@@ -79,11 +79,13 @@ const TeamInfo = ({route, navigation}) => {
                     {teamMemberCards}
                 </ScrollView>
             </Card>
-            <Card title="tasks">
-                <ScrollView>
-                    {taskCards}
-                </ScrollView>
-            </Card>
+            <View style={{paddingBottom: 10}}>
+                <Card title="tasks">
+                    <ScrollView>
+                        {taskCards}
+                    </ScrollView>
+                </Card>
+            </View>
             {status === "joined" ? <Button title="Leave the team" onPress={leaveTeam}/> : null}
         </ScrollView>
     )

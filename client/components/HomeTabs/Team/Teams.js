@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from "react";
-import {ScrollView, View} from "react-native";
+import {Button, ScrollView, View, TextInput} from "react-native";
 import {Card, Divider, ListItem, Text} from "react-native-elements";
 import styles from "../../../styles/stylesheet";
 import {useSelector} from "react-redux";
 import {selectToken} from "../../../features/tokenSlice";
 import AuthHead from "../../../AuthHeader";
 import axios from 'axios'
-import TouchableOpacity from "react-native-web/src/exports/TouchableOpacity";
 import {useFocusEffect} from "@react-navigation/native";
+import NewTeamForm from "./NewTeamForm";
 
 const Teams = (props) => {
     const selector = useSelector(selectToken)
@@ -22,14 +22,15 @@ const Teams = (props) => {
     }
 
     const [teams, setTeams] = useState([])
+    const [fillTeamForm, setFillTeamForm] = useState(false)
+    const [userCreatedTeams, setUserCreatedTeams] = useState([])
     useFocusEffect(React.useCallback(() => {
-        console.log("pp")
-        axios.get('http://localhost:5000/user/all', AuthHead(selector.value))
-            .then(result => result.data)
-            .then(data => {
-                setTeams(data.teams)
+        axios.all([axios.get('http://localhost:5000/user/all', AuthHead(selector.value)),
+            axios.get('http://localhost:5000/team/all', AuthHead(selector.value))])
+            .then(result => {
+                setTeams(result[0].data.teams)
             }).catch(err => setTeams([]))
-    },[]))
+    }, []))
     let teamList = []
     let teamPendingList = []
     teams.forEach(team => {
@@ -61,12 +62,15 @@ const Teams = (props) => {
                 </Card>
             </View>
             <Divider/>
-            <View style={styles.sectionContainer}>
+            <View style={[styles.sectionContainer, {paddingBottom: 10}]}>
                 <Card title="Pending Teams">
                     {teamPendingList}
-
                 </Card>
             </View>
+
+            {fillTeamForm ?
+                <NewTeamForm onSubmit={() => setFillTeamForm(false)}/>:
+                <Button title="Create Team" onPress={() => setFillTeamForm(true)}/>}
         </ScrollView>
     )
 }
