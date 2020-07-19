@@ -10,12 +10,14 @@ const NewTeamForm = (props) => {
     const [teamName, setTeamName] = useState("")
     const [err, setErr] = useState("")
     const submit = () => {
-        axios.post("http://localhost/team/create", {
+        axios.post("http://localhost:5000/team/create", {
             teamName: teamName
-        }, AuthHead(selector.token))
-            .then(res => res.data)
-            .catch(err => setErr("Couldn't post team") )
-        props.onSubmit()
+        }, AuthHead(selector.value))
+            .then(res => setErr("Team Created"))
+            .catch(err => {
+                console.log(err)
+                setErr("Couldn't post team")})
+        // props.onSubmit()
     }
     return (
         <View style={styles.form}>
@@ -24,11 +26,11 @@ const NewTeamForm = (props) => {
                 <TextInput style={styles.input}
                            placeholder="Enter team name"
                            onChangeText={text => setTeamName(text)}
-                           value={username}/>
+                           value={teamName}/>
                 <TouchableOpacity
-                    style={styles.loginButton}
+                    style={[styles.loginButton, {backgroundColor: "#4CAF50"}]}
                     onPress={submit}>
-                    <Text style={styles.LoginButtonText}>Login</Text>
+                    <Text style={styles.LoginButtonText}>Submit!</Text>
                 </TouchableOpacity>
             </View>
     )

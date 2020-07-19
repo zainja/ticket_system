@@ -8,7 +8,6 @@ import {useDispatch} from "react-redux";
 import {addToken} from "../features/tokenSlice";
 import {setName} from "../features/userSlice";
 
-const {storeJSON} = require("../dataManagement");
 
 const SplashScreen = (props) => {
     const dispatch = useDispatch()

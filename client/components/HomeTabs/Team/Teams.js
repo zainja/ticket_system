@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Button, ScrollView, View, TextInput} from "react-native";
+import {Button, ScrollView, View, TextInput, TouchableOpacity} from "react-native";
 import {Card, Divider, ListItem, Text} from "react-native-elements";
 import styles from "../../../styles/stylesheet";
 import {useSelector} from "react-redux";
@@ -29,10 +29,13 @@ const Teams = (props) => {
             axios.get('http://localhost:5000/team/all', AuthHead(selector.value))])
             .then(result => {
                 setTeams(result[0].data.teams)
+                setUserCreatedTeams(result[1].data.teams)
             }).catch(err => setTeams([]))
     }, []))
     let teamList = []
     let teamPendingList = []
+    console.log(userCreatedTeams)
+
     teams.forEach(team => {
         if (team.user_status === 'pending') {
             teamPendingList.push(
@@ -54,23 +57,49 @@ const Teams = (props) => {
             )
         }
     })
+    let createdTeamsList = userCreatedTeams.map(team =>
+        <ListItem key={userCreatedTeams.indexOf(team)}
+                  title={team.team_name}
+                  titleStyle={{fontWeight: "bold", fontSize: 17}}
+                  onPress={() => teamInfo(team.team_name, "created")}
+                  chevron
+        />
+    )
     return (
         <ScrollView style={{flex: 1}}>
             <View style={styles.sectionContainer}>
                 <Card title="Joined Teams">
-                    {teamList}
+                    {(teamList.length === 0)? <Text>
+                        No Teams
+                    </Text>: teamList}
                 </Card>
             </View>
             <Divider/>
             <View style={[styles.sectionContainer, {paddingBottom: 10}]}>
                 <Card title="Pending Teams">
-                    {teamPendingList}
+                    {(teamPendingList.length === 0)? <Text>
+                        No Teams
+                    </Text>: teamPendingList}
                 </Card>
             </View>
 
+            <View style={[styles.sectionContainer, {paddingBottom: 10}]}>
+                <Card title="Created Teams">
+                    {(createdTeamsList.length === 0)? <Text>
+                        No Teams
+                    </Text>: createdTeamsList}
+                </Card>
+            </View>
             {fillTeamForm ?
-                <NewTeamForm onSubmit={() => setFillTeamForm(false)}/>:
-                <Button title="Create Team" onPress={() => setFillTeamForm(true)}/>}
+                <NewTeamForm/> :
+                null}
+            <TouchableOpacity
+                style={[styles.loginButton, {marginRight: 12, marginLeft: 12, marginBottom: 10}]}
+                onPress={() => setFillTeamForm((prev) => !prev)}>
+                <Text style={styles.LoginButtonText}>
+                    {fillTeamForm ? "Go back" : "Create new team!"}
+                </Text>
+            </TouchableOpacity>
         </ScrollView>
     )
 }
