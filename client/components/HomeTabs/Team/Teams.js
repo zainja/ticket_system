@@ -61,7 +61,7 @@ const Teams = (props) => {
         <ListItem key={userCreatedTeams.indexOf(team)}
                   title={team.team_name}
                   titleStyle={{fontWeight: "bold", fontSize: 17}}
-                  onPress={() => teamInfo(team.team_name, "created")}
+                  onPress={() => teamInfo(team.team_name, "owner")}
                   chevron
         />
     )

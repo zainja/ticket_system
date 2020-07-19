@@ -3,12 +3,13 @@ import AuthHead from "../../../AuthHeader";
 import axios from 'axios'
 import {Button, ScrollView, View} from "react-native";
 import {Card, ListItem, Text} from "react-native-elements";
+import {useFocusEffect} from "@react-navigation/native";
 
 const TeamInfo = ({route, navigation}) => {
     const {teamName, token, status} = route.params
     const [teamMembers, setTeamMembers] = useState([])
     const [teamTasks, setTeamTasks] = useState([])
-    useEffect(() => {
+    useFocusEffect(React.useCallback(() => {
         const teamToSend = teamName.replace(/ /g, '&')
         axios.all([
                 axios.get(`http://localhost:5000/team-users/users/${teamToSend}`, AuthHead(token)),
@@ -20,7 +21,7 @@ const TeamInfo = ({route, navigation}) => {
         }).catch(err => {
             console.log(err)
         })
-    }, [])
+    }, []))
     const acceptRequest = () => {
         axios.post("http://localhost:5000/user/accept", {
             teamName: teamName
@@ -78,6 +79,13 @@ const TeamInfo = ({route, navigation}) => {
                 <ScrollView>
                     {teamMemberCards}
                 </ScrollView>
+                {status === "owner" ? <Button title="Add Members" onPress={
+                    () => {
+                        navigation.navigate("Add Team Member", {
+                            teamName: teamName
+                        })
+                    }
+                }/> : null}
             </Card>
             <View style={{paddingBottom: 10}}>
                 <Card title="tasks">

@@ -26,7 +26,7 @@ router.put("/:teamName", tokenAuth, async (req, res) =>{
         res.sendStatus(400)
     }
 } )
-router.patch("/delete-member/:teamName", tokenAuth, async (req, res) => {
+router.put("/delete-member/:teamName", tokenAuth, async (req, res) => {
     let teamName = req.params.teamName.replace(/&/g, " ")
     const {teamMember} = req.body
     try {
