@@ -86,8 +86,8 @@ const TeamInfo = ({route, navigation}) => {
             key={teamTasks.indexOf(task)}
             title={task.task_name}
             onPress={() => {
-                    navigation.navigate("Task", {task: task, status: status})
-                }
+                navigation.navigate("Task", {task: task, status: status})
+            }
             }
             subtitle={`start date: ${startDateFormat} \nend date: ${endDateFormat} \nstatus: ${task.status}`}
         />

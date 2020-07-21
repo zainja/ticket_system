@@ -60,7 +60,7 @@ const Task = ({route, navigation}) => {
             />)
     })
     return (
-        <ScrollView>
+        <ScrollView style={{flexDirection: "column"}}>
             <View style={{paddingLeft: 16, marginTop: 10, flexDirection: "column"}}>
                 <Text h2>
                     {task.task_name}
@@ -83,12 +83,14 @@ const Task = ({route, navigation}) => {
                 {assignedUsersList}
 
             </Card>
-            <View style={{padding: 15}}>
+            <View style={{padding: 15, alignSelf: "center", flexGrow: 1,
+                flexDirection: "column"}}>
                 {status === "owner" ? <Button title="Assign users to task" onPress={() => {
                         navigation.navigate("Assign Task", {taskID: task.task_id})
                     }}/> :
                     <Button title="Report on task"
                             onPress={() => {
+                                navigation.navigate("Report on Task",{taskID: task.task_id})
                             }}/>}
             </View>
         </ScrollView>
