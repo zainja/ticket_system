@@ -129,7 +129,7 @@ exports.getPossibleUsersToAddForTask = (username, taskID) => {
     return new Promise((resolve, reject) => {
         connection.query(`SELECT * FROM users WHERE username NOT IN(
     SELECT username FROM user_task WHERE task_id = ?
-    ) AND username != ?`,[taskID, username], (err, result) => {
+    ) AND username != ? AND username NOT IN (SELECT username FROM user_team WHERE user_status='pending')`,[taskID, username], (err, result) => {
             if(err) reject(err)
             resolve(result)
         })

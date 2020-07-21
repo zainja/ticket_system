@@ -85,7 +85,7 @@ const Task = ({route, navigation}) => {
             </Card>
             <View style={{padding: 15, alignSelf: "center", flexGrow: 1,
                 flexDirection: "column"}}>
-                {status === "owner" ? <Button title="Assign users to task" onPress={() => {
+                {(status === "owner" && task.status === "open") ? <Button title="Assign users to task" onPress={() => {
                         navigation.navigate("Assign Task", {taskID: task.task_id})
                     }}/> :
                     <Button title="Report on task"

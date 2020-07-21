@@ -26,11 +26,12 @@ router.put("/:teamName", tokenAuth, async (req, res) =>{
         res.sendStatus(400)
     }
 } )
-router.put("/delete-member/:teamName", tokenAuth, async (req, res) => {
+router.post("/delete-member/:teamName", tokenAuth, async (req, res) => {
     let teamName = req.params.teamName.replace(/&/g, " ")
     const {teamMember} = req.body
     try {
         await teamMemberOperations.removeMember(teamName, teamMember)
+        res.send("Correct")
     }catch (e) {
         res.status(400)
         res.send({error: e})

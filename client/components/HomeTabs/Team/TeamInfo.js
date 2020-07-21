@@ -4,6 +4,7 @@ import axios from 'axios'
 import {Alert, Button, ScrollView, View} from "react-native";
 import {Card, ListItem, Text} from "react-native-elements";
 import {useFocusEffect} from "@react-navigation/native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const TeamInfo = ({route, navigation}) => {
     const {teamName, token, status} = route.params
@@ -68,14 +69,40 @@ const TeamInfo = ({route, navigation}) => {
                 style: "cancel"
             }])
     }
+
+    const deleteMember = (teamMember) => {
+        const deleteMemberTeam = teamName.replace(/ /g, "&")
+        axios.all(
+            [axios.post(`http://localhost:5000/team-users/delete-member/${deleteMemberTeam}`,
+                {teamMember: teamMember}, AuthHead(token)),
+                axios.delete(`http://localhost:5000/task/userLeave/${teamName}`, AuthHead(token))])
+            .then(res => {
+                Alert.alert("", "user deleted")
+            })
+            .catch(err => {
+                Alert.alert("Error", "user cannot be deleted")
+            })
+        teamMembers.filter(member => member.username !== teamMember)
+    }
     const teamMemberCards = teamMembers.map(team => {
         const user = {firstName: team.first_name, lastName: team.last_name, username: team.username}
         return <ListItem
             key={teamMembers.indexOf(team)}
             title={user.firstName + " " + user.lastName}
             subtitle={user.username}
+            rightTitle={team.user_status}
+            rightIcon={
+                status === "owner" ?
+                    <Icon name="delete"
+                          color="red"
+                          size={30}
+                          onPress={() => {
+                              deleteMember(user.username)
+                          }}/>
+                    : null
+            }
             bottomDivider
-            user={user}/>
+        />
     })
     const taskCards = teamTasks.map(task => {
         const startDate = new Date(task.start_date)
