@@ -33,6 +33,7 @@ router.delete("/delete-user/:taskID/:username", tokenAuth, async (req, res) => {
     const {taskID, username} = req.params
     try {
         await taskOperations.deleteUserFromTask(taskID, username)
+        res.send("Correct")
     } catch (e) {
         res.status(400)
         res.send({error: e})
