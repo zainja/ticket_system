@@ -48,11 +48,22 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: "white"
     },
+    dateButtonText: {
+        fontSize: 20,
+        color: "black"
+    },
     sectionContainer: {
         flex: 1,
         flexDirection: "column",
         alignItems: "stretch",
         justifyContent: "flex-start"
+    },
+    dateButton: {
+        alignItems: "center",
+        padding: 10,
+        width: "50%",
+        backgroundColor: "#bdbdbd",
+        marginTop: 6
     },
     sectionTitle: {
 

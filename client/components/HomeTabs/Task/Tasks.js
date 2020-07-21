@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {View, Text} from "react-native";
 
-const {getJSON} = require("../../dataManagement");
+const {getJSON} = require("../../../dataManagement");
 const Tasks = () => {
     const [tasks, setTasks] = useState([])
     // useEffect(() => {
