@@ -120,4 +120,15 @@ router.delete("/userLeave/:teamName", tokenAuth, async (req, res) => {
         res.send(500)
     }
 })
+
+router.get(`/possibleUsers/:taskID`, tokenAuth, async (req, res) => {
+    const username = req.user
+    const taskID = req.params.taskID
+    try {
+        const users = await taskOperations.getPossibleUsersToAddForTask(username, taskID)
+        res.send({users: users})
+    }catch (e) {
+        res.send(e)
+    }
+})
 module.exports = router
