@@ -135,3 +135,19 @@ exports.getPossibleUsersToAddForTask = (username, taskID) => {
         })
     })
 }
+exports.submitReport = (username, taskID, report) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`INSERT INTO task_reports (task_id, report, author) VALUES (?, ?, ?)`,
+            [taskID, report, username], (err, result) => {
+                if (err) reject(err)
+                resolve(result)
+            })
+    })
+}
+exports.getReports = (taskID) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM task_reports 
+                                LEFT JOIN users u on task_reports.author = u.username
+                                WHERE task_id=?`,taskID)
+    })
+}

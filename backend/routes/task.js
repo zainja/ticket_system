@@ -135,4 +135,24 @@ router.get(`/possibleUsers/:taskID`, tokenAuth, async (req, res) => {
         res.send(e)
     }
 })
+router.post(`/report/:taskID`, tokenAuth, async (req, res) => {
+    const username = req.user
+    const taskID = req.params.taskID
+    const report = req.body.report
+    try {
+        await taskOperations.submitReport(username, taskID, report)
+        await res.send("Correct")
+    }catch (e) {
+        res.send(e)
+    }
+})
+
+router.get(`/report/:taskID`, tokenAuth, async (req, res) => {
+    try {
+        const reports = await taskOperations.getReports(req.params.taskID)
+        await res.send({reports: reports})
+    }catch (e) {
+        res.send(e)
+    }
+})
 module.exports = router
