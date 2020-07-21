@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import AuthHead from "../../../AuthHeader";
 import axios from 'axios'
-import {Button, ScrollView, View} from "react-native";
+import {Alert, Button, ScrollView, View} from "react-native";
 import {Card, ListItem, Text} from "react-native-elements";
 import {useFocusEffect} from "@react-navigation/native";
 
@@ -19,7 +19,15 @@ const TeamInfo = ({route, navigation}) => {
             setTeamMembers(responseArray[0].data.teamMembers)
             setTeamTasks(responseArray[1].data)
         }).catch(err => {
-            console.log(err)
+            Alert.alert("Fetch Error", "Couldn't Connect to server",
+                [
+                    {
+                        text: "Go back",
+                        onPress: () => {
+                            navigation.goBack()
+                        }
+                    }
+                ])
         })
     }, []))
     const acceptRequest = () => {
@@ -38,10 +46,27 @@ const TeamInfo = ({route, navigation}) => {
                 AuthHead(token)),
                 axios.delete(`http://localhost:5000/task/userLeave/${teamName}`, AuthHead(token))])
             .then(res => {
-                    console.log("eeee")
                     navigation.goBack()
                 }
             ).catch(err => console.log(err.response))
+    }
+
+    const deleteTeam = () => {
+        const teamToBeDeleted = teamName.replace(/ /g, "&")
+        Alert.alert(`Delete Team ${teamName}`,
+            "If you delete the team members will be sacked automatically, Tasks will be discarded",
+            [
+                {
+                    text: "Confirm",
+                    onPress: () => {
+                        axios.delete(`http://localhost:5000/team/${teamToBeDeleted}`, AuthHead(token))
+                            .then(res => navigation.goBack())
+                            .catch(err => Alert.alert("Failed to delete", "Try later"))
+                    }
+                }, {
+                text: "Cancel",
+                style: "cancel"
+            }])
     }
     const teamMemberCards = teamMembers.map(team => {
         const user = {firstName: team.first_name, lastName: team.last_name, username: team.username}
@@ -53,10 +78,15 @@ const TeamInfo = ({route, navigation}) => {
             user={user}/>
     })
     const taskCards = teamTasks.map(task => {
+        const startDate = new Date(task.start_date)
+        const endDate = new Date(task.end_date)
+        const startDateFormat = `${startDate.toLocaleString()}`
+        const endDateFormat = `${endDate.toLocaleString()}`
         return <ListItem
             key={teamTasks.indexOf(task)}
             title={task.task_name}
-            subtitle={`start date: ${task.start_date} \nend date: ${task.end_date} \nstatus: ${task.status}`}
+            onPress={}
+            subtitle={`start date: ${startDateFormat} \nend date: ${endDateFormat} \nstatus: ${task.status}`}
         />
     })
     const pendingTeam =
@@ -92,9 +122,17 @@ const TeamInfo = ({route, navigation}) => {
                     <ScrollView>
                         {taskCards}
                     </ScrollView>
+                    {status === "owner" ? <Button title="Add Task" onPress={
+                        () => {
+                            navigation.navigate("Add Task", {
+                                teamName: teamName
+                            })
+                        }
+                    }/> : null}
                 </Card>
             </View>
             {status === "joined" ? <Button title="Leave the team" onPress={leaveTeam}/> : null}
+            {status === "owner" ? <Button title={"Delete Team"} onPress={deleteTeam}/> : null}
         </ScrollView>
     )
 }

@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {CheckBox} from "react-native-elements";
+import CheckBox from "@react-native-community/checkbox";
+import {Text, View} from "react-native";
+import {Divider} from "react-native-elements";
+
 
 const UserCheckBox = (props) => {
     const [checked, setChecked] = useState(false)
@@ -7,15 +10,20 @@ const UserCheckBox = (props) => {
         if (checked)
             props.addUser(props.subtitle)
         else props.removeUser(props.subtitle)
-    },[checked])
+    }, [checked])
     return (
-        <CheckBox checked={checked}
-                  title={`${props.title}\n${props.subtitle}`}
-                  titleStyle={{fontWeight: "bold", fontSize: 17}}
-                  onPress={() => {
-                      setChecked(prevState => !prevState)
-                  }}
-        />
+        <View style={{flexDirection: "column"}}>
+            <Text>
+                {props.title + " " + props.subtitle}
+            </Text>
+            <CheckBox
+                value={checked}
+                onChange={() => {
+                    setChecked(prevState => !prevState)
+                }}
+            />
+            <Divider/>
+        </View>
     )
 }
 

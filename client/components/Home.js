@@ -1,6 +1,6 @@
 import React from 'react'
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import Tasks from "./HomeTabs/Tasks";
+import Tasks from "./HomeTabs/Task/Tasks";
 import AsyncStorage from '@react-native-community/async-storage';
 import {Button, View} from "react-native";
 import Teams from "./HomeTabs/Team/Teams";

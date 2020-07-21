@@ -10,11 +10,13 @@ import store from './app/store'
 import {Provider} from 'react-redux'
 import TeamInfo from "./components/HomeTabs/Team/TeamInfo";
 import AddUserToTeam from "./components/HomeTabs/Team/AddUserToTeam";
+import TasksForTeams from "./components/HomeTabs/Team/TasksForTeams";
+import NewTeamForm from "./components/HomeTabs/Team/NewTeamForm";
+import Task from "./components/HomeTabs/Task/Task";
+import AssignTask from "./components/HomeTabs/Task/AssignTask";
 
 const Stack = createStackNavigator();
 export default function App() {
-    const [loading, setLoading] = useState(true)
-    const [isUser, setIsUser] = useState(false)
     return (
         <Provider store={store}>
             <NavigationContainer>
@@ -39,6 +41,10 @@ export default function App() {
                     <Stack.Screen name="TeamInfo" component={TeamInfo}
                         options={{title: "Team"}}/>
                     <Stack.Screen name="Add Team Member" component={AddUserToTeam}/>
+                    <Stack.Screen name="Add Task" component={TasksForTeams}/>
+                    <Stack.Screen name="Create Team" component={NewTeamForm}/>
+                    <Stack.Screen name="Task" component={Task}/>
+                    <Stack.Screen name="Assign Task" component={AssignTask}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </Provider>

@@ -55,13 +55,19 @@ const AddUserToTeam = ({route, navigation}) => {
         Alert.alert(
             'Successful',
             "added users to the team",
+            [
+                {
+                    text: "Go back",
+                    onPress: () => {navigation.goBack()}
+                }
+            ]
         )
         setUsersToBeAdded([])
     }
 
     const userList = users.map(user =>
         <UserCheckBox
-            key={users.username}
+            key={users.indexOf(user)}
             title={`${user.first_name} ${user.last_name}`}
             subtitle={user.username}
             addUser={(userName) => setUsersToBeAdded(prevState => [...prevState, userName])}
@@ -69,7 +75,7 @@ const AddUserToTeam = ({route, navigation}) => {
         />)
     const searchList = searchQuery.map(user =>
         <UserCheckBox
-            key={users.username}
+            key={users.indexOf(user)}
             title={`${user.first_name} ${user.last_name}`}
             subtitle={user.username}
             addUser={(userName) => setUsersToBeAdded(prevState => [...prevState, userName])

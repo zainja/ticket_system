@@ -23,7 +23,7 @@ router.post("/create", tokenAuth, async (req, res) => {
 
 
 router.delete("/:teamName", tokenAuth, async (req, res) =>{
-    let teamName = req.params.teamName.replace("&", " ")
+    let teamName = req.params.teamName.replace(/&/g, " ")
 
     try{
         await teamQueries.deleteTeam(teamName)

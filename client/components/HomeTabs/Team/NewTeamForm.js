@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import styles from "../../../styles/stylesheet";
 import axios from 'axios'
-import {Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Alert, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useSelector} from "react-redux";
 import {selectToken} from "../../../features/tokenSlice";
 import AuthHead from "../../../AuthHeader";
@@ -13,11 +13,13 @@ const NewTeamForm = (props) => {
         axios.post("http://localhost:5000/team/create", {
             teamName: teamName
         }, AuthHead(selector.value))
-            .then(res => setErr("Team Created"))
+            .then(res => Alert.alert("Team Created", "Congrats", [{
+                text: "Go Back",
+                onPress: props.navigation.goBack()
+            }]))
             .catch(err => {
-                console.log(err)
-                setErr("Couldn't post team")})
-        // props.onSubmit()
+                Alert.alert("Failed", "Team name already exists",[{
+                }])})
     }
     return (
         <View style={styles.form}>

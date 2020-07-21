@@ -90,14 +90,12 @@ const Teams = (props) => {
                     </Text>: createdTeamsList}
                 </Card>
             </View>
-            {fillTeamForm ?
-                <NewTeamForm/> :
-                null}
+
             <TouchableOpacity
                 style={[styles.loginButton, {marginRight: 12, marginLeft: 12, marginBottom: 10}]}
-                onPress={() => setFillTeamForm((prev) => !prev)}>
+                onPress={() => navigation.navigate("Create Team")}>
                 <Text style={styles.LoginButtonText}>
-                    {fillTeamForm ? "Go back" : "Create new team!"}
+                    Create New Team
                 </Text>
             </TouchableOpacity>
         </ScrollView>
