@@ -12,15 +12,18 @@ router.post("/", tokenAuth, async (req, res) => {
         res.send({"error": e})
     }
 })
+router.get("/taskDetails/:taskID", tokenAuth, async (req, res) => {
 
+})
 router.put("/:taskID", tokenAuth, async (req, res) => {
     const taskID = req.params.taskID
-    const {username} = req.body
+    const {teamMember} = req.body
     try {
-        await taskOperations.assignTask(taskID, username)
+        await taskOperations.assignTask(taskID, teamMember)
         res.send("Correct")
 
     } catch (e) {
+        console.log(e)
         res.status(400)
         res.send({"error": e})
     }

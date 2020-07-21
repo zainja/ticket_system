@@ -1,21 +1,20 @@
-import React, {useState} from "react";
-import {useSelector} from "react-redux";
-import {selectToken} from "../../../features/tokenSlice";
-import {useFocusEffect} from "@react-navigation/native";
-import axios from "axios";
-import AuthHead from "../../../AuthHeader";
+import React, {useEffect, useState} from "react";
+
+import {Text} from "react-native";
+import SearchForUsers from "../../SearchForUsers";
 
 const AssignTask = ({navigation, route}) => {
-    const {teamName} = route.params
-    const selector = useSelector(selectToken)
-    const [searchQuery, setSearchQuery] = useState([])
-    const [search, setSearch] = useState("")
 
-    useFocusEffect(React.useCallback(() => {
-        axios.get(`http://localhost:5000/team-users/${teamName}`,
-            AuthHead(selector.value)).then(res => res.data)
-            .then(data => setUsers(data.users))
-            .catch(err => navigation.goBack())
-    }, []))
+    const {taskID} = route.params
+    const goBack = () => {
+        navigation.goBack()
+    }
+    return(
+        <SearchForUsers
+            query={`http://localhost:5000/task/possibleUsers/${taskID}`}
+            sendQuery={`http://localhost:5000/task/${taskID}`}
+            navigateBack={goBack}
+        />
+    )
 }
 export default AssignTask

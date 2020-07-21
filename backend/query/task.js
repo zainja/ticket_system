@@ -88,9 +88,11 @@ exports.deleteTask = (task_id) => {
 
 exports.getAssignedUsersForTask = (task_id) => {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT username
-                                FROM user_task
-                                WHERE task_id = ?`,[task_id],(err, result) => {
+        connection.query(`SELECT *
+                                FROM users
+                                WHERE username IN 
+                               (SELECT username 
+                                from user_task WHERE task_id=?)`,[task_id],(err, result) => {
             if (err) reject(err)
             resolve(result)
         })
@@ -123,11 +125,11 @@ exports.deleteTasksAfterLeavingTeam = (username, teamname) => {
     })
 }
 
-exports.getPossibleUsersToAddForTask = (username, teamName) => {
+exports.getPossibleUsersToAddForTask = (username, taskID) => {
     return new Promise((resolve, reject) => {
         connection.query(`SELECT * FROM users WHERE username NOT IN(
     SELECT username FROM user_task WHERE task_id = ?
-    ) AND username != ?`,[username, teamName], (err, result) => {
+    ) AND username != ?`,[taskID, username], (err, result) => {
             if(err) reject(err)
             resolve(result)
         })

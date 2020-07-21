@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Button, ScrollView, View, TextInput, TouchableOpacity} from "react-native";
+import {ScrollView, View, TouchableOpacity} from "react-native";
 import {Card, Divider, ListItem, Text} from "react-native-elements";
 import styles from "../../../styles/stylesheet";
 import {useSelector} from "react-redux";
