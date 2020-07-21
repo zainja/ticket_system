@@ -1,9 +1,9 @@
 const connection = require('../connection')
 
-exports.createTask = (task_name, start_date, end_date, teamname) => {
+exports.createTask = (task_name, start_date, end_date, teamname, description) => {
     return new Promise((resolve, reject) => {
-        connection.query("INSERT INTO task (task_name, start_date, end_date, team_name) VALUES (?, ?, ?, ?)",
-            [task_name, start_date, end_date, teamname], (err, result) => {
+        connection.query("INSERT INTO task (task_name, start_date, end_date, team_name, description) VALUES (?, ?, ?, ?, ?)",
+            [task_name, start_date, end_date, teamname, description], (err, result) => {
                 if (err) reject(err)
                 resolve(result)
             })
@@ -38,15 +38,9 @@ exports.changeTaskStatus = (task_id, status) => {
         })
     })
 }
-// return new Promise((resolve, reject) => {
-//     connection.query("",[],(err, result) => {
-//         if (err) reject(err)
-//         resolve(result)
-//     })
-// })
+
 exports.getTeamTasks = (teamname) => {
-    const sql = "SELECT task_name, start_date, end_date, creation_date" +
-        "FROM task"
+
     return new Promise((resolve, reject) => {
         connection.query(`SELECT *
                                 FROM task
@@ -126,5 +120,16 @@ exports.deleteTasksAfterLeavingTeam = (username, teamname) => {
             if (err) reject(err)
             resolve(result)
             })
+    })
+}
+
+exports.getPossibleUsersToAddForTask = (username, teamName) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM users WHERE username NOT IN(
+    SELECT username FROM user_task WHERE task_id = ?
+    ) AND username != ?`,[username, teamName], (err, result) => {
+            if(err) reject(err)
+            resolve(result)
+        })
     })
 }

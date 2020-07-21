@@ -3,9 +3,9 @@ const router = express.Router()
 const taskOperations = require('../query/task')
 const tokenAuth = require('../tokenAuth')
 router.post("/", tokenAuth, async (req, res) => {
-    const {task_name, start_date, end_date, teamname} = req.body
+    const {taskName, startDate, endDate, teamName, description} = req.body
     try {
-        await taskOperations.createTask(task_name, start_date, end_date, teamname)
+        await taskOperations.createTask(taskName, startDate, endDate, teamName, description)
         res.send("Correct")
     } catch (e) {
         res.status(400)
