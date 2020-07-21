@@ -18,6 +18,7 @@ import ReportOnTask from "./components/HomeTabs/Task/ReportOnTask";
 
 const Stack = createStackNavigator();
 export default function App() {
+
     return (
         <Provider store={store}>
             <NavigationContainer>
