@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {View, Text} from 'react-native'
+import {View, Text, Alert} from 'react-native'
 import styles from "../styles/stylesheet";
 import axios from 'axios'
 import AuthHead from "../AuthHeader";
@@ -24,8 +24,9 @@ const SplashScreen = (props) => {
                             userName: data.user.username
                         }
                         dispatch(setName(user))
+                        axios.get('http://localhost:5000')
                         props.navigation.replace("Main")
-                    })
+                    }).catch(err => {Alert.alert("Fetch Error","Retry again")})
             }
         ).catch(err => props.navigation.replace("Login"))
     }, [])
