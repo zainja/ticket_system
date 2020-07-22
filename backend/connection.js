@@ -1,7 +1,7 @@
 // imports
 const mysql = require('mysql')
 require('dotenv').config()
-
+console.log(process.env)
 mysqlInfo = {
     host: process.env.host,
     port: process.env.port,

@@ -4,6 +4,6 @@ backend/.idea/*
 backend/bin/
 backend/config.js
 backend/test.http
-backend/.env
 backend/reqTest.py
 .idea
+.env

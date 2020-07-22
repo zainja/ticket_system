@@ -1,0 +1,35 @@
+version: '3.2'
+services:
+  db:
+    build:
+      ./db
+    ports:
+    - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${SQL_PASSWORD}
+    networks:
+      - db-net
+    healthcheck:
+      test: "exit 0"
+      timeout: 20s
+      retries: 10
+  api:
+    build:
+      context: ./backend
+    networks:
+      - db-net
+    depends_on:
+      - db
+    volumes:
+    - ./backend:/api/ticket
+    ports:
+    - "5000:5000"
+    environment:
+    - host=db
+    - user=root
+    - password=${SQL_PASSWORD}
+    - port=3306
+    - database=ticket
+    - ACCESS_TOKEN_SECRET=${TOKEN_SECRET}
+networks:
+  db-net:
