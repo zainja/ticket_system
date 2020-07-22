@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, Text, TextInput, TouchableOpacity, ScrollView} from 'react-native'
+import {View, Text, TextInput, TouchableOpacity, ScrollView, Alert} from 'react-native'
 import styles from "../styles/stylesheet";
 import axios from 'axios';
 
@@ -24,10 +24,26 @@ const Register = ({navigation}) => {
                 password: password
             }).then(res => res.data)
                 .then(data =>
-                    storeItem(data.accessToken, "TOKEN").then(r => navigation.replace("Splash"))
+                    storeItem(data.accessToken, "TOKEN").then(r => {
+                            navigator.geolocation.getCurrentPosition((location) => {
+                                axios.post('http://localhost:5000/location/', {
+                                    username: username,
+                                    longitude: location.coords.longitude,
+                                    latitude: location.coords.latitude
+                                }).then(res => {
+                                    navigation.replace("Splash")
+                                }).catch(err => {
+                                    console.log(err)
+                                    Alert.alert("Error", "Network Error")
+                                })
+                            }, err => {
+                                Alert.alert("Error", "Failed to get location")
+                            })
+                        }
+                    )
                 )
                 .catch(err => {
-                    setErr("User name exists")
+                    Alert.alert("Error", "Try again")
                 })
         }
     }

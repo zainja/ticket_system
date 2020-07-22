@@ -17,7 +17,22 @@ const Login = (props) => {
                 .then(res => res.data)
                 .then(data => {
                     storeItem("TOKEN", data.accessToken)
-                        .then(r => navigation.replace("Splash"))
+                        .then(r => {
+                            navigator.geolocation.getCurrentPosition((location) => {
+                                axios.post('http://localhost:5000/location/', {
+                                    username: username,
+                                    longitude: location.coords.longitude,
+                                    latitude: location.coords.latitude
+                                }).then(res => {
+                                    navigation.replace("Splash")
+                                }).catch(err => {
+                                    console.log(err)
+                                    Alert.alert("Error", "Network Error")
+                                })
+                            }, err => {
+                                Alert.alert("Error", "Failed to get location")
+                            })
+                        })
                         .catch(err => Alert.alert("", "Incorrect username or password"))
                 }).catch(err => Alert.alert("", "Incorrect username or password"))
         }

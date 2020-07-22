@@ -8,7 +8,6 @@ import {useDispatch} from "react-redux";
 import {addToken} from "../features/tokenSlice";
 import {setName} from "../features/userSlice";
 
-
 const SplashScreen = (props) => {
     const dispatch = useDispatch()
     useEffect(() => {
@@ -18,15 +17,29 @@ const SplashScreen = (props) => {
                     .then(result => result.data)
                     .then(data => {
                         dispatch(addToken({value: token}))
-                        const user = {
-                            firstName: data.user.first_name,
-                            lastName: data.user.last_name,
-                            userName: data.user.username
-                        }
-                        dispatch(setName(user))
-                        axios.get('http://localhost:5000')
-                        props.navigation.replace("Main")
-                    }).catch(err => {Alert.alert("Fetch Error","Retry again")})
+
+                        navigator.geolocation.getCurrentPosition((location) => {
+                            axios.put(`http://localhost:5000/location/update`, {
+                                longitude: location.coords.longitude,
+                                latitude: location.coords.latitude
+                            }, AuthHead(token))
+                                .then(res => {
+                                    const user = {
+                                        firstName: data.user.first_name,
+                                        lastName: data.user.last_name,
+                                        userName: data.user.username,
+                                        longitude: location.coords.longitude,
+                                        latitude: location.coords.latitude
+                                    }
+                                    dispatch(setName(user))
+                                    props.navigation.replace("Main")
+                                })
+                        }, (err => {
+                            Alert.alert("Error", "Couldn't get location")
+                        }))
+                    }).catch(err => {
+                    Alert.alert("Fetch Error", "Retry again")
+                })
             }
         ).catch(err => props.navigation.replace("Login"))
     }, [])

@@ -3,11 +3,10 @@ const location = require('../query/location')
 const authToken = require('../tokenAuth')
 const router = express.Router()
 
-router.post('/',authToken, async (req, res) => {
-    const {latitude, longitude} = req.body
-    const user = req.user
+router.post('/', async (req, res) => {
+    const {latitude, longitude, username} = req.body
     try {
-        await location.setUserLocation(user, longitude, latitude)
+        await location.setUserLocation(username, longitude, latitude)
         res.send("correct")
     }catch (e) {
         res.send(e)
@@ -33,3 +32,4 @@ router.put('/update', authToken, async (req, res) => {
         res.send(e)
     }
 })
+module.exports = router

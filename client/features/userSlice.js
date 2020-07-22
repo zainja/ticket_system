@@ -4,7 +4,9 @@ export const userSlice = createSlice({
     initialState:{
         firstName: "",
         lastName: "",
-        userName: ""
+        userName: "",
+        longitude: 0,
+        latitude: 0
     },
     reducers: {
         setName: (state, action) => {
