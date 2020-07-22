@@ -101,6 +101,8 @@ const TeamInfo = ({route, navigation}) => {
                           }}/>
                     : null
             }
+            onPress={() => {
+            }}
             bottomDivider
         />
     })

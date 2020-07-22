@@ -21,6 +21,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "android": {
+      "package": "com.ticket.system",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAPNqusz8g2r99jSgaqGfnUFhhQmwLzJuE"
+        }
+      }
     }
   }
 }
