@@ -19,7 +19,6 @@ const TasksForTeams = ({navigation, route}) => {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const onChange = (event, selectedDate) => {
-        console.log(target)
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
         if (target === "date1")
@@ -28,8 +27,6 @@ const TasksForTeams = ({navigation, route}) => {
     };
     const onSubmit = () => {
         if (date > endDate || date < Date.now()) {
-            console.log(date)
-            console.log(endDate)
             Alert.alert("Invalid",
                 "Pick another date that is not in the past")
             return
@@ -41,7 +38,7 @@ const TasksForTeams = ({navigation, route}) => {
         }
         const startDate = date.toISOString().slice(0, 19).replace('T', ' ')
         const endDateCut = endDate.toISOString().slice(0, 19).replace('T', ' ')
-        console.log(startDate)
+
         axios.post("http://localhost:5000/task/", {
             taskName: title,
             startDate: startDate,

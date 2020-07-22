@@ -5,7 +5,6 @@ import {StyleSheet, View, Dimensions} from 'react-native';
 
 const Map = ({navigation, route}) => {
     const {longitude, latitude, teamMember} = route.params
-    console.log(teamMember, longitude, latitude)
     const initialRegion = {
         longitude: longitude,
         latitude: latitude,

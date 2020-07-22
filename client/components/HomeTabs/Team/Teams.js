@@ -34,7 +34,7 @@ const Teams = (props) => {
     }, []))
     let teamList = []
     let teamPendingList = []
-    console.log(userCreatedTeams)
+
 
     teams.forEach(team => {
         if (team.user_status === 'pending') {

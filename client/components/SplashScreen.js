@@ -41,7 +41,9 @@ const SplashScreen = (props) => {
                     Alert.alert("Fetch Error", "Retry again")
                 })
             }
-        ).catch(err => props.navigation.replace("Login"))
+        ).catch(err => {
+            props.navigation.replace("Login")
+        })
     }, [])
     return (
         <View style={[styles.container, styles.splash]}>

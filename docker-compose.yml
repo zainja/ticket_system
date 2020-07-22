@@ -5,8 +5,8 @@ services:
       ./db
     ports:
       - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=${SQL_PASSWORD}
+    env_file:
+      - .env_db
     networks:
       - db-net
     healthcheck:
@@ -26,14 +26,8 @@ services:
       - ./backend:/api/ticket
     ports:
       - "5000:5000"
-    environment:
-      - host=db
-      - user=root
-      - password=${SQL_PASSWORD}
-      - port=3306
-      - database=ticket
-      - ACCESS_TOKEN_SECRET=${TOKEN_SECRET}
-      - WAIT_HOSTS=db:3306
+    env_file:
+      - .env_backend
 #  app:
 #    build:
 #      context: ./client

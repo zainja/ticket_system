@@ -20,7 +20,6 @@ const Task = ({route, navigation}) => {
             AuthHead(tokenSelector.value)).then(res => {
             Alert.alert("","Removed user")
         }).catch(err => {
-            console.log(err)
             Alert.alert("Error", "Failed to remove user")
         })
         setAssignedUsers((prevState) => prevState.filter(user => user.username !== username))

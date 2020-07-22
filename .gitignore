@@ -6,4 +6,5 @@ backend/config.js
 backend/test.http
 backend/reqTest.py
 .idea
-.env
+.env_backend
+.env_db

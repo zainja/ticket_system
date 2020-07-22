@@ -26,7 +26,6 @@ const Login = (props) => {
                                 }).then(res => {
                                     navigation.replace("Splash")
                                 }).catch(err => {
-                                    console.log(err)
                                     Alert.alert("Error", "Network Error")
                                 })
                             }, err => {

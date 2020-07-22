@@ -23,7 +23,6 @@ router.put("/:taskID", tokenAuth, async (req, res) => {
         res.send("Correct")
 
     } catch (e) {
-        console.log(e)
         res.status(400)
         res.send({"error": e})
     }

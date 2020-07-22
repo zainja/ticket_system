@@ -1,8 +1,5 @@
 const connection = require('../connection')
 require('dotenv').config()
-// connection.connect((err) => {
-//     if (err) console.log("error")
-// })
 
 exports.acceptRequest = (username, team ) => {
     return new Promise((resolve, reject) => {

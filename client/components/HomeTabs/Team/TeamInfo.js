@@ -38,7 +38,7 @@ const TeamInfo = ({route, navigation}) => {
             .then(res => {
                 navigation.navigate("Teams")
             })
-            .catch(err => console.log("Failed to join"))
+            .catch(err => Alert.alert("Error", "Failed to join team"))
     }
 
     const leaveTeam = () => {
@@ -49,7 +49,7 @@ const TeamInfo = ({route, navigation}) => {
             .then(res => {
                     navigation.goBack()
                 }
-            ).catch(err => console.log(err.response))
+            ).catch(err => Alert.alert("Error","Failed to leave"))
     }
 
     const deleteTeam = () => {
@@ -85,14 +85,12 @@ const TeamInfo = ({route, navigation}) => {
         teamMembers.filter(member => member.username !== teamMember)
     }
     const teamMemberCards = teamMembers.map(member => {
-        console.log(member)
         const user = {firstName: member.first_name,
             lastName: member.last_name,
             username: member.username, userStatus: member.user_status,
             longitude: member.longitude !== null ? member.longitude : 0,
             latitude: member.latitude !== null ? member.latitude : 0,
         }
-        console.log(user)
         return <ListItem
             key={teamMembers.indexOf(member)}
             title={user.firstName + " " + user.lastName}

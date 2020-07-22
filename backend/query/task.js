@@ -105,7 +105,6 @@ exports.getAllUserTasks = (username) => {
                                 RIGHT JOIN user_task ON task.task_id = user_task.task_id
                                 WHERE user_task.username=?`,[username],(err, result) => {
             if (err) reject(err)
-            console.log(result)
             resolve(result)
         })
     })

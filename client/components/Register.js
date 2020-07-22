@@ -22,25 +22,28 @@ const Register = ({navigation}) => {
                 firstName: firstName,
                 lastName: lastName,
                 password: password
-            }).then(res => res.data)
-                .then(data =>
-                    storeItem(data.accessToken, "TOKEN").then(r => {
-                            navigator.geolocation.getCurrentPosition((location) => {
-                                axios.post('http://localhost:5000/location/', {
-                                    username: username,
-                                    longitude: location.coords.longitude,
-                                    latitude: location.coords.latitude
-                                }).then(res => {
-                                    navigation.replace("Splash")
-                                }).catch(err => {
-                                    console.log(err)
-                                    Alert.alert("Error", "Network Error")
+            }).then(res => {
+                return res.data
+            })
+                .then(data => {
+                        storeItem("TOKEN", data.accessToken)
+                            .then(r => {
+                                navigator.geolocation.getCurrentPosition((location) => {
+                                    axios.post('http://localhost:5000/location/', {
+                                        username: username,
+                                        longitude: location.coords.longitude,
+                                        latitude: location.coords.latitude
+                                    }).then(res => {
+                                        navigation.replace("Splash")
+                                    }).catch(err => {
+                                        Alert.alert("Error", "Network Error")
+                                    })
+                                }, err => {
+                                    Alert.alert("Error", "Failed to get location")
                                 })
-                            }, err => {
-                                Alert.alert("Error", "Failed to get location")
-                            })
-                        }
-                    )
+                            }
+                        )
+                    }
                 )
                 .catch(err => {
                     Alert.alert("Error", "Try again")
