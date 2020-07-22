@@ -1,14 +1,12 @@
 const connection = require('../connection')
 require('dotenv').config()
-// connection.connect((err) => {
-//     if (err) console.log("error")
-// })
+
 
 exports.createTeam = (teamObj) => {
 
     return new Promise((resolve, reject) => {
 
-        connection.query("INSERT INTO team SET ? ", teamObj,(err, result) =>{
+        connection.query("INSERT INTO team SET ?", teamObj,(err, result) =>{
             if (err) reject(err)
             resolve(result)
         } )
