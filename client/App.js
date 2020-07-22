@@ -15,6 +15,7 @@ import NewTeamForm from "./components/HomeTabs/Team/NewTeamForm";
 import Task from "./components/HomeTabs/Task/Task";
 import AssignTask from "./components/HomeTabs/Task/AssignTask";
 import ReportOnTask from "./components/HomeTabs/Task/ReportOnTask";
+import Map from "./components/Map";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -48,6 +49,7 @@ export default function App() {
                     <Stack.Screen name="Task" component={Task}/>
                     <Stack.Screen name="Assign Task" component={AssignTask}/>
                     <Stack.Screen name="Report on Task" component={ReportOnTask}/>
+                    <Stack.Screen name="Map" component={Map}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </Provider>

@@ -84,13 +84,20 @@ const TeamInfo = ({route, navigation}) => {
             })
         teamMembers.filter(member => member.username !== teamMember)
     }
-    const teamMemberCards = teamMembers.map(team => {
-        const user = {firstName: team.first_name, lastName: team.last_name, username: team.username}
+    const teamMemberCards = teamMembers.map(member => {
+        console.log(member)
+        const user = {firstName: member.first_name,
+            lastName: member.last_name,
+            username: member.username, userStatus: member.user_status,
+            longitude: member.longitude !== null ? member.longitude : 0,
+            latitude: member.latitude !== null ? member.latitude : 0,
+        }
+        console.log(user)
         return <ListItem
-            key={teamMembers.indexOf(team)}
+            key={teamMembers.indexOf(member)}
             title={user.firstName + " " + user.lastName}
             subtitle={user.username}
-            rightTitle={team.user_status}
+            rightTitle={user.userStatus}
             rightIcon={
                 status === "owner" ?
                     <Icon name="delete"
@@ -102,6 +109,11 @@ const TeamInfo = ({route, navigation}) => {
                     : null
             }
             onPress={() => {
+                navigation.navigate("Map",{
+                    teamMember: user.firstName + " " + user.lastName,
+                    longitude: user.longitude,
+                    latitude: user.latitude
+                })
             }}
             bottomDivider
         />
@@ -116,7 +128,7 @@ const TeamInfo = ({route, navigation}) => {
             title={task.task_name}
             onPress={() => {
                 navigation.navigate("Task", {task: task, status: status})
-            }
+                }
             }
             subtitle={`start date: ${startDateFormat} \nend date: ${endDateFormat} \nstatus: ${task.status}`}
         />

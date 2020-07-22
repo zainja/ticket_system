@@ -29,7 +29,7 @@ exports.addMember = (member, teamName) => {
 
 exports.getTeamMembers = (teamName) => {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT ut.username, ut.user_status, u.first_name, u.last_name, ul.latitude, ul.latitude
+        connection.query(`SELECT ut.username, ut.user_status, u.first_name, u.last_name, ul.latitude, ul.longitude
                           FROM user_team ut
                                    LEFT JOIN users u on ut.username = u.username
                                    LEFT JOIN user_location ul on u.username = ul.username
