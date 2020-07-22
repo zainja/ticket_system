@@ -4,7 +4,7 @@ services:
     build:
       ./db
     ports:
-    - "3306:3306"
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=${SQL_PASSWORD}
     networks:
@@ -20,16 +20,33 @@ services:
       - db-net
     depends_on:
       - db
+    links:
+      - db
     volumes:
-    - ./backend:/api/ticket
+      - ./backend:/api/ticket
     ports:
-    - "5000:5000"
+      - "5000:5000"
     environment:
-    - host=db
-    - user=root
-    - password=${SQL_PASSWORD}
-    - port=3306
-    - database=ticket
-    - ACCESS_TOKEN_SECRET=${TOKEN_SECRET}
+      - host=db
+      - user=root
+      - password=${SQL_PASSWORD}
+      - port=3306
+      - database=ticket
+      - ACCESS_TOKEN_SECRET=${TOKEN_SECRET}
+      - WAIT_HOSTS=db:3306
+#  app:
+#    build:
+#      context: ./client
+#    networks:
+#      - db-net
+#    depends_on:
+#      - api
+#    ports:
+#      - "19002:19002"
+#      - "19000:19000"
+#      - "19001:19001"
+#    environment:
+#      - WAIT_HOSTS=db:3306,api:5000
+
 networks:
   db-net:
