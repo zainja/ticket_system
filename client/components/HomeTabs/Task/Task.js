@@ -42,19 +42,16 @@ const Task = ({route, navigation}) => {
         assignedUsers.forEach(user => {
 
             if (user.username == selector.username) {
-                console.log("e")
                 return true
             }
         })
-        console.log("No")
         return false
     }
     const taskReportsList = taskReports.map(report => {
-        console.log(report)
-        return(<ListItem
-            title={"Author" + " "+ report.author}
-            rightTitle={"Date" + " " + report.date}
-            subtitle={"description" + " " +report.report}
+        return (<ListItem key={taskReports.indexOf(report)}
+                          title={"Author" + " " + report.author}
+                          rightTitle={"Date" + " " + report.date}
+                          subtitle={"description" + " " + report.report}
         />)
     })
     const assignedUsersList = assignedUsers.map((user) => {
@@ -103,15 +100,19 @@ const Task = ({route, navigation}) => {
                 padding: 15, alignSelf: "center", flexGrow: 1,
                 flexDirection: "column"
             }}>
-                {(status === "owner" && task.status === "open") ? <Button title="Assign users to task" onPress={() => {
+                {(status === "owner" && task.status === "open") ?
+                    <Button title="Assign users to task" onPress={() => {
                         navigation.navigate("Assign Task", {taskID: task.task_id})
                     }}/> :
                     <Button title="Report on task"
                             onPress={() => {
                                 if (isUserAssignedToTask()) {
                                     navigation.navigate("Report on Task", {taskID: task.task_id})
+                                }else{
+                                    alert("You are not assigned to task")
                                 }
-                            }}/>}
+                            }}/>
+                }
             </View>
             <View style={{padding: 15, marginTop: 10, marginBottom: 10}}>
                 <Card>

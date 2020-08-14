@@ -24,23 +24,11 @@ services:
       - db
     volumes:
       - ./backend:/api/ticket
+      - /api/ticket/node_modules
     ports:
       - "5000:5000"
     env_file:
       - .env_backend
-#  app:
-#    build:
-#      context: ./client
-#    networks:
-#      - db-net
-#    depends_on:
-#      - api
-#    ports:
-#      - "19002:19002"
-#      - "19000:19000"
-#      - "19001:19001"
-#    environment:
-#      - WAIT_HOSTS=db:3306,api:5000
 
 networks:
   db-net:
