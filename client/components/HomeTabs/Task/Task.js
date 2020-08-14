@@ -14,11 +14,11 @@ const Task = ({route, navigation}) => {
     const tokenSelector = useSelector(selectToken)
     const {task, status} = route.params
     const [assignedUsers, setAssignedUsers] = useState([])
-
+    const [taskReports, setTaskReports] = useState([])
     const deleteUser = (username) => {
         axios.delete(`http://localhost:5000/task/delete-user/${task.task_id}/${username}`,
             AuthHead(tokenSelector.value)).then(res => {
-            Alert.alert("","Removed user")
+            Alert.alert("", "Removed user")
         }).catch(err => {
             Alert.alert("Error", "Failed to remove user")
         })
@@ -26,20 +26,37 @@ const Task = ({route, navigation}) => {
 
     }
     useFocusEffect(React.useCallback(() => {
-        axios.get(`http://localhost:5000/task/users/${task.task_id}`, AuthHead(tokenSelector.value))
-            .then(res => res.data)
-            .then(data => {
-                setAssignedUsers(data)
-            })
+        console.log(AuthHead(tokenSelector.value))
+        axios.all([
+            axios.get(`http://localhost:5000/task/users/${task.task_id}`, AuthHead(tokenSelector.value)),
+            axios.get(`http://localhost:5000/task/report/${task.task_id}`, AuthHead(tokenSelector.value))
+        ]).then(resArray => {
+            console.log("resArray")
+            setAssignedUsers(resArray[0].data)
+            setTaskReports(resArray[1].data.reports)
+
+        }).catch(err => Alert.alert("Error", "Fetch error"))
     }, []))
 
     let isUserAssignedToTask = () => {
         assignedUsers.forEach(user => {
-            if (user.username === selector.userName)
+
+            if (user.username == selector.username) {
+                console.log("e")
                 return true
+            }
         })
+        console.log("No")
         return false
     }
+    const taskReportsList = taskReports.map(report => {
+        console.log(report)
+        return(<ListItem
+            title={"Author" + " "+ report.author}
+            rightTitle={"Date" + " " + report.date}
+            subtitle={"description" + " " +report.report}
+        />)
+    })
     const assignedUsersList = assignedUsers.map((user) => {
         return (
             <ListItem
@@ -82,15 +99,24 @@ const Task = ({route, navigation}) => {
                 {assignedUsersList}
 
             </Card>
-            <View style={{padding: 15, alignSelf: "center", flexGrow: 1,
-                flexDirection: "column"}}>
+            <View style={{
+                padding: 15, alignSelf: "center", flexGrow: 1,
+                flexDirection: "column"
+            }}>
                 {(status === "owner" && task.status === "open") ? <Button title="Assign users to task" onPress={() => {
                         navigation.navigate("Assign Task", {taskID: task.task_id})
                     }}/> :
                     <Button title="Report on task"
                             onPress={() => {
-                                navigation.navigate("Report on Task",{taskID: task.task_id})
+                                if (isUserAssignedToTask()) {
+                                    navigation.navigate("Report on Task", {taskID: task.task_id})
+                                }
                             }}/>}
+            </View>
+            <View style={{padding: 15, marginTop: 10, marginBottom: 10}}>
+                <Card>
+                    {taskReportsList}
+                </Card>
             </View>
         </ScrollView>
     )

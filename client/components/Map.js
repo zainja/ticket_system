@@ -8,16 +8,17 @@ const Map = ({navigation, route}) => {
     const initialRegion = {
         longitude: longitude,
         latitude: latitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
     }
 
     return (
         <View style={styles.container}>
             <MapView
                 region={initialRegion}
+                mapType={"standard"}
                 style={styles.mapStyle}
-                >
+            >
                 <Marker
                     coordinate={{longitude: longitude, latitude: latitude}}
                     title={teamMember}

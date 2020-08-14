@@ -12,9 +12,6 @@ router.post("/", tokenAuth, async (req, res) => {
         res.send({"error": e})
     }
 })
-router.get("/taskDetails/:taskID", tokenAuth, async (req, res) => {
-
-})
 router.put("/:taskID", tokenAuth, async (req, res) => {
     const taskID = req.params.taskID
     const {teamMember} = req.body
@@ -116,10 +113,10 @@ router.delete("/:taskID", tokenAuth, async (req, res) => {
 router.delete("/userLeave/:teamName", tokenAuth, async (req, res) => {
     const username = req.user
     const teamName = req.params.teamName
-    try{
+    try {
         await taskOperations.deleteTasksAfterLeavingTeam(username, teamName)
         res.send(200)
-    }catch (e) {
+    } catch (e) {
         res.send(500)
     }
 })
@@ -130,7 +127,7 @@ router.get(`/possibleUsers/:taskID`, tokenAuth, async (req, res) => {
     try {
         const users = await taskOperations.getPossibleUsersToAddForTask(username, taskID)
         res.send({users: users})
-    }catch (e) {
+    } catch (e) {
         res.send(e)
     }
 })
@@ -141,16 +138,19 @@ router.post(`/report/:taskID`, tokenAuth, async (req, res) => {
     try {
         await taskOperations.submitReport(username, taskID, report)
         await res.send("Correct")
-    }catch (e) {
+    } catch (e) {
         res.send(e)
     }
 })
 
 router.get(`/report/:taskID`, tokenAuth, async (req, res) => {
+    console.log("ee")
     try {
+        console.log("ew")
         const reports = await taskOperations.getReports(req.params.taskID)
-        await res.send({reports: reports})
-    }catch (e) {
+        console.log("er")
+        res.send({reports: reports})
+    } catch (e) {
         res.send(e)
     }
 })
