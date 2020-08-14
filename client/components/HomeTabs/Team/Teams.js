@@ -8,6 +8,7 @@ import AuthHead from "../../../AuthHeader";
 import axios from 'axios'
 import {useFocusEffect} from "@react-navigation/native";
 import NewTeamForm from "./NewTeamForm";
+import API from "../../../URL";
 
 const Teams = (props) => {
     const selector = useSelector(selectToken)
@@ -25,8 +26,8 @@ const Teams = (props) => {
     const [fillTeamForm, setFillTeamForm] = useState(false)
     const [userCreatedTeams, setUserCreatedTeams] = useState([])
     useFocusEffect(React.useCallback(() => {
-        axios.all([axios.get('http://localhost:5000/user/all', AuthHead(selector.value)),
-            axios.get('http://localhost:5000/team/all', AuthHead(selector.value))])
+        axios.all([API.get('user/all', AuthHead(selector.value)),
+            API.get('team/all', AuthHead(selector.value))])
             .then(result => {
                 setTeams(result[0].data.teams)
                 setUserCreatedTeams(result[1].data.teams)

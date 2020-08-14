@@ -7,19 +7,20 @@ import {getItem} from "../dataManagement"
 import {useDispatch} from "react-redux";
 import {addToken} from "../features/tokenSlice";
 import {setName} from "../features/userSlice";
+import API from "../URL";
 
 const SplashScreen = (props) => {
     const dispatch = useDispatch()
     useEffect(() => {
         getItem("TOKEN").then(
             token => {
-                axios.get("http:localhost:5000/user/", AuthHead(token))
+                API.get("user/", AuthHead(token))
                     .then(result => result.data)
                     .then(data => {
                         dispatch(addToken({value: token}))
 
                         navigator.geolocation.getCurrentPosition((location) => {
-                            axios.put(`http://localhost:5000/location/update`, {
+                            API.put(`location/update`, {
                                 longitude: location.coords.longitude,
                                 latitude: location.coords.latitude
                             }, AuthHead(token))

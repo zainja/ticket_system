@@ -7,6 +7,7 @@ import {useSelector} from "react-redux";
 import {selectToken} from "../../../features/tokenSlice";
 import axios from 'axios'
 import AuthHead from "../../../AuthHeader";
+import API from "../../../URL";
 
 const TasksForTeams = ({navigation, route}) => {
     const selector = useSelector(selectToken)
@@ -39,7 +40,7 @@ const TasksForTeams = ({navigation, route}) => {
         const startDate = date.toISOString().slice(0, 19).replace('T', ' ')
         const endDateCut = endDate.toISOString().slice(0, 19).replace('T', ' ')
 
-        axios.post("http://localhost:5000/task/", {
+        API.post("task/", {
             taskName: title,
             startDate: startDate,
             endDate: endDateCut,

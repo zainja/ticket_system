@@ -7,6 +7,7 @@ import {Alert, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import UserCheckBox from "./HomeTabs/Team/UserCheckBox";
 import {Card, SearchBar} from "react-native-elements";
 import styles from "../styles/stylesheet";
+import API from "../URL";
 
 const SearchForUsers = (props) => {
     const {query, sendQuery, navigateBack} = props
@@ -17,7 +18,7 @@ const SearchForUsers = (props) => {
     const [search, setSearch] = useState("")
 
     useEffect(() => {
-        axios.get(query,
+        API.get(query,
             AuthHead(selector.value)).then(res => res.data)
             .then(data => setUsers(data.users))
             .catch(err => Alert.alert("Connection Error", "Couldn't fetch users"))
@@ -39,7 +40,7 @@ const SearchForUsers = (props) => {
 
     function addUsers() {
         usersToBeAdded.forEach(user => {
-            axios.put(sendQuery, {
+            API.put(sendQuery, {
                 teamMember: user
             }, AuthHead(selector.value)).catch(err => {
                 alert(`Failed to add team member ${user}`)

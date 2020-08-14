@@ -5,6 +5,7 @@ import axios from "axios"
 import AuthHead from "../../../AuthHeader";
 import {useSelector} from "react-redux";
 import {selectToken} from "../../../features/tokenSlice";
+import API from "../../../URL";
 const ReportOnTask = ({navigation, route}) => {
     const [report, setReport] = useState("")
     const selector = useSelector(selectToken)
@@ -13,7 +14,7 @@ const ReportOnTask = ({navigation, route}) => {
             Alert.alert("Error", "Cannot send an empty report")
             return
         }
-        axios.post(`http://localhost:5000/task/report/${route.params.taskID}`,{
+        API.post(`task/report/${route.params.taskID}`,{
             report: report
         },AuthHead(selector.value))
             .then(res => Alert.alert("","report submitted"))

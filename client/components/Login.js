@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native'
 import styles from "../styles/stylesheet";
 import axios from 'axios'
+import API from "../URL";
 
 const {storeItem} = require("../dataManagement");
 
@@ -13,13 +14,13 @@ const Login = (props) => {
     const submit = () => {
         if (username !== "" && password !== "") {
             const details = {userName: username, password: password}
-            axios.post("http://localhost:5000/auth/login", details)
+            API.post("auth/login", details)
                 .then(res => res.data)
                 .then(data => {
                     storeItem("TOKEN", data.accessToken)
                         .then(r => {
                             navigator.geolocation.getCurrentPosition((location) => {
-                                axios.post('http://localhost:5000/location/', {
+                                API.post('location/', {
                                     username: username,
                                     longitude: location.coords.longitude,
                                     latitude: location.coords.latitude

@@ -11,8 +11,8 @@ const AssignTask = ({navigation, route}) => {
     }
     return(
         <SearchForUsers
-            query={`http://localhost:5000/task/possibleUsers/${taskID}`}
-            sendQuery={`http://localhost:5000/task/${taskID}`}
+            query={`task/possibleUsers/${taskID}`}
+            sendQuery={`task/${taskID}`}
             navigateBack={goBack}
         />
     )

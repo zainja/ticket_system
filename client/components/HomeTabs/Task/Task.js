@@ -8,6 +8,7 @@ import AuthHead from "../../../AuthHeader";
 import {selectToken} from "../../../features/tokenSlice";
 import Icon from "react-native-vector-icons/MaterialIcons"
 import {useFocusEffect} from "@react-navigation/native";
+import API from "../../../URL";
 
 const Task = ({route, navigation}) => {
     const selector = useSelector(selectName)
@@ -16,7 +17,7 @@ const Task = ({route, navigation}) => {
     const [assignedUsers, setAssignedUsers] = useState([])
     const [taskReports, setTaskReports] = useState([])
     const deleteUser = (username) => {
-        axios.delete(`http://localhost:5000/task/delete-user/${task.task_id}/${username}`,
+        API.delete(`task/delete-user/${task.task_id}/${username}`,
             AuthHead(tokenSelector.value)).then(res => {
             Alert.alert("", "Removed user")
         }).catch(err => {
@@ -28,8 +29,8 @@ const Task = ({route, navigation}) => {
     useFocusEffect(React.useCallback(() => {
         console.log(AuthHead(tokenSelector.value))
         axios.all([
-            axios.get(`http://localhost:5000/task/users/${task.task_id}`, AuthHead(tokenSelector.value)),
-            axios.get(`http://localhost:5000/task/report/${task.task_id}`, AuthHead(tokenSelector.value))
+            API.get(`task/users/${task.task_id}`, AuthHead(tokenSelector.value)),
+            API.get(`task/report/${task.task_id}`, AuthHead(tokenSelector.value))
         ]).then(resArray => {
             console.log("resArray")
             setAssignedUsers(resArray[0].data)

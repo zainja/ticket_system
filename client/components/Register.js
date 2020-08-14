@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {View, Text, TextInput, TouchableOpacity, ScrollView, Alert} from 'react-native'
 import styles from "../styles/stylesheet";
 import axios from 'axios';
+import API from "../URL";
 
 const {storeItem} = require("../dataManagement");
 
@@ -17,7 +18,7 @@ const Register = ({navigation}) => {
         if (password !== confirmPassword) {
             setErr("Password and confirm don't match")
         } else {
-            axios.post("http://localhost:5000/auth/register", {
+            API.post("auth/register", {
                 userName: username,
                 firstName: firstName,
                 lastName: lastName,
@@ -29,7 +30,7 @@ const Register = ({navigation}) => {
                         storeItem("TOKEN", data.accessToken)
                             .then(r => {
                                 navigator.geolocation.getCurrentPosition((location) => {
-                                    axios.post('http://localhost:5000/location/', {
+                                    API.post('location/', {
                                         username: username,
                                         longitude: location.coords.longitude,
                                         latitude: location.coords.latitude
@@ -46,6 +47,7 @@ const Register = ({navigation}) => {
                     }
                 )
                 .catch(err => {
+                    console.log(err)
                     Alert.alert("Error", "Try again")
                 })
         }

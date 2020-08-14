@@ -5,6 +5,7 @@ import {Alert, Button, ScrollView, View} from "react-native";
 import {Card, ListItem, Text} from "react-native-elements";
 import {useFocusEffect} from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import API from "../../../URL";
 
 const TeamInfo = ({route, navigation}) => {
     const {teamName, token, status} = route.params
@@ -13,8 +14,8 @@ const TeamInfo = ({route, navigation}) => {
     useFocusEffect(React.useCallback(() => {
         const teamToSend = teamName.replace(/ /g, '&')
         axios.all([
-                axios.get(`http://localhost:5000/team-users/users/${teamToSend}`, AuthHead(token)),
-                axios.get(`http://localhost:5000/task/all/${teamToSend}`, AuthHead(token))
+                API.get(`team-users/users/${teamToSend}`, AuthHead(token)),
+                API.get(`task/all/${teamToSend}`, AuthHead(token))
             ]
         ).then(responseArray => {
             setTeamMembers(responseArray[0].data.teamMembers)
@@ -32,7 +33,7 @@ const TeamInfo = ({route, navigation}) => {
         })
     }, []))
     const acceptRequest = () => {
-        axios.post("http://localhost:5000/user/accept", {
+        API.post("user/accept", {
             teamName: teamName
         }, AuthHead(token))
             .then(res => {
@@ -43,9 +44,9 @@ const TeamInfo = ({route, navigation}) => {
 
     const leaveTeam = () => {
         axios.all(
-            [axios.post("http://localhost:5000/user/leave", {teamName: teamName},
+            [API.post("user/leave", {teamName: teamName},
                 AuthHead(token)),
-                axios.delete(`http://localhost:5000/task/userLeave/${teamName}`, AuthHead(token))])
+                axios.delete(`task/userLeave/${teamName}`, AuthHead(token))])
             .then(res => {
                     navigation.goBack()
                 }
@@ -60,7 +61,7 @@ const TeamInfo = ({route, navigation}) => {
                 {
                     text: "Confirm",
                     onPress: () => {
-                        axios.delete(`http://localhost:5000/team/${teamToBeDeleted}`, AuthHead(token))
+                        API.delete(`team/${teamToBeDeleted}`, AuthHead(token))
                             .then(res => navigation.goBack())
                             .catch(err => Alert.alert("Failed to delete", "Try later"))
                     }
@@ -73,9 +74,9 @@ const TeamInfo = ({route, navigation}) => {
     const deleteMember = (teamMember) => {
         const deleteMemberTeam = teamName.replace(/ /g, "&")
         axios.all(
-            [axios.post(`http://localhost:5000/team-users/delete-member/${deleteMemberTeam}`,
+            [API.post(`team-users/delete-member/${deleteMemberTeam}`,
                 {teamMember: teamMember}, AuthHead(token)),
-                axios.delete(`http://localhost:5000/task/userLeave/${teamName}`, AuthHead(token))])
+                API.delete(`task/userLeave/${teamName}`, AuthHead(token))])
             .then(res => {
                 Alert.alert("", "user deleted")
             })

@@ -5,12 +5,13 @@ import {Alert, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useSelector} from "react-redux";
 import {selectToken} from "../../../features/tokenSlice";
 import AuthHead from "../../../AuthHeader";
+import API from "../../../URL";
 const NewTeamForm = (props) => {
     const selector = useSelector(selectToken)
     const [teamName, setTeamName] = useState("")
     const [err, setErr] = useState("")
     const submit = () => {
-        axios.post("http://localhost:5000/team/create", {
+        API.post("team/create", {
             teamName: teamName
         }, AuthHead(selector.value))
             .then(res => Alert.alert("Team Created", "Congrats", [{

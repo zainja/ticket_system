@@ -6,12 +6,13 @@ import axios from 'axios'
 import AuthHead from "../../../AuthHeader";
 import {useSelector} from "react-redux";
 import {selectToken} from "../../../features/tokenSlice";
+import API from "../../../URL";
 const {getJSON} = require("../../../dataManagement");
 const Tasks = ({navigation}) => {
     const selector = useSelector(selectToken)
     const [tasks, setTasks] = useState([])
     useFocusEffect(React.useCallback (() => {
-        axios.get("http://localhost:5000/task/getAllTasks",AuthHead(selector.value))
+        API.get("task/getAllTasks",AuthHead(selector.value))
             .then(res => {
                 return res.data
             })

@@ -12,8 +12,8 @@ const AddUserToTeam = ({route, navigation}) => {
     }
     return(
         <SearchForUsers
-            query={`http://localhost:5000/team-users/${teamName.replace(/ /g,"&")}`}
-            sendQuery={`http://localhost:5000/team-users/${teamName.replace(/ /g,"&")}`}
+            query={`team-users/${teamName.replace(/ /g,"&")}`}
+            sendQuery={`team-users/${teamName.replace(/ /g,"&")}`}
             navigateBack={goBack}
         />
     )

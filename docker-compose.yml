@@ -1,27 +1,10 @@
 version: '3.2'
 services:
-  db:
-    build:
-      ./db
-    ports:
-      - "3306:3306"
-    env_file:
-      - .env_db
-    networks:
-      - db-net
-    healthcheck:
-      test: "exit 0"
-      timeout: 20s
-      retries: 10
   api:
     build:
       context: ./backend
     networks:
       - db-net
-    depends_on:
-      - db
-    links:
-      - db
     volumes:
       - ./backend:/api/ticket
       - /api/ticket/node_modules
