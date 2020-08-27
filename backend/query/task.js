@@ -32,7 +32,7 @@ exports.deleteUserFromTask = (taskID, username) => {
 }
 exports.changeTaskStatus = (task_id, status) => {
     return new Promise((resolve, reject) => {
-        connection.query("UPDATE task SET status = ? WHERE task_id = ? ", [], (err, result) => {
+        connection.query("UPDATE task SET status = ? WHERE task_id = ? ", [status, task_id], (err, result) => {
             if (err) reject(err)
             resolve(result)
         })

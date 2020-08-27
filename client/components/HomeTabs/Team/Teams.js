@@ -9,6 +9,7 @@ import axios from 'axios'
 import {useFocusEffect} from "@react-navigation/native";
 import NewTeamForm from "./NewTeamForm";
 import API from "../../../URL";
+import {useInterval} from "../../../hooks/useInterval";
 
 const Teams = (props) => {
     const selector = useSelector(selectToken)
@@ -25,14 +26,14 @@ const Teams = (props) => {
     const [teams, setTeams] = useState([])
     const [fillTeamForm, setFillTeamForm] = useState(false)
     const [userCreatedTeams, setUserCreatedTeams] = useState([])
-    useFocusEffect(React.useCallback(() => {
+    useInterval(() => {
         axios.all([API.get('user/all', AuthHead(selector.value)),
             API.get('team/all', AuthHead(selector.value))])
             .then(result => {
                 setTeams(result[0].data.teams)
                 setUserCreatedTeams(result[1].data.teams)
             }).catch(err => setTeams([]))
-    }, []))
+    }, 1000)
     let teamList = []
     let teamPendingList = []
 
@@ -70,25 +71,25 @@ const Teams = (props) => {
         <ScrollView style={{flex: 1}}>
             <View style={styles.sectionContainer}>
                 <Card title="Joined Teams">
-                    {(teamList.length === 0)? <Text>
+                    {(teamList.length === 0) ? <Text>
                         No Teams
-                    </Text>: teamList}
+                    </Text> : teamList}
                 </Card>
             </View>
             <Divider/>
             <View style={[styles.sectionContainer, {paddingBottom: 10}]}>
                 <Card title="Pending Teams">
-                    {(teamPendingList.length === 0)? <Text>
+                    {(teamPendingList.length === 0) ? <Text>
                         No Teams
-                    </Text>: teamPendingList}
+                    </Text> : teamPendingList}
                 </Card>
             </View>
 
             <View style={[styles.sectionContainer, {paddingBottom: 10}]}>
                 <Card title="Created Teams">
-                    {(createdTeamsList.length === 0)? <Text>
+                    {(createdTeamsList.length === 0) ? <Text>
                         No Teams
-                    </Text>: createdTeamsList}
+                    </Text> : createdTeamsList}
                 </Card>
             </View>
 

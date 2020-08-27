@@ -41,7 +41,6 @@ const Task = ({route, navigation}) => {
 
     let isUserAssignedToTask = () => {
         assignedUsers.forEach(user => {
-
             if (user.username == selector.username) {
                 return true
             }
@@ -107,13 +106,31 @@ const Task = ({route, navigation}) => {
                     }}/> :
                     <Button title="Report on task"
                             onPress={() => {
-                                if (isUserAssignedToTask()) {
+                                if (isUserAssignedToTask() && task.status === "open") {
                                     navigation.navigate("Report on Task", {taskID: task.task_id})
-                                }else{
-                                    alert("You are not assigned to task")
+                                } else {
+                                    alert("You are not assigned to task or task is closed")
                                 }
                             }}/>
                 }
+            </View>
+            <View style={{
+                padding: 15, alignSelf: "center", flexGrow: 1,
+                flexDirection: "column", marginTop: 10
+            }}>
+                <Button title="close task" onPress={() => {
+                    API.put(`task/status/${task.task_id}`, {status: "closed"}, AuthHead(selector.value))
+                        .then(res => {
+                            Alert.alert("Successful",
+                                "Task was closed", [{
+                                    text: "Go Back",
+                                    onPress: navigation.goBack()
+                                }])
+                        }).catch(err => {
+                        console.log(err)
+                        console.log(task.task_id)
+                    })
+                }}/>
             </View>
             <View style={{padding: 15, marginTop: 10, marginBottom: 10}}>
                 <Card>

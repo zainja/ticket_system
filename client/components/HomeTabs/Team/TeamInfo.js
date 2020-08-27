@@ -45,8 +45,7 @@ const TeamInfo = ({route, navigation}) => {
     const leaveTeam = () => {
         axios.all(
             [API.post("user/leave", {teamName: teamName},
-                AuthHead(token)),
-                axios.delete(`task/userLeave/${teamName}`, AuthHead(token))])
+                AuthHead(token))])
             .then(res => {
                     navigation.goBack()
                 }
@@ -83,7 +82,7 @@ const TeamInfo = ({route, navigation}) => {
             .catch(err => {
                 Alert.alert("Error", "user cannot be deleted")
             })
-        teamMembers.filter(member => member.username !== teamMember)
+        setTeamMembers(teamMembers.filter(member => member.username !== teamMember))
     }
     const teamMemberCards = teamMembers.map(member => {
         const user = {firstName: member.first_name,

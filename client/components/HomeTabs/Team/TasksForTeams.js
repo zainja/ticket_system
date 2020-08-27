@@ -50,6 +50,7 @@ const TasksForTeams = ({navigation, route}) => {
             .then(res => Alert.alert("Successful",
                 "Task was published", [{
                     text: "Go Back",
+                    onPress: navigation.goBack()
                 }]))
             .catch(err => {Alert.alert("Error occurred", "Retry later")
             })
