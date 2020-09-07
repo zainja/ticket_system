@@ -114,7 +114,7 @@ const Task = ({route, navigation}) => {
                             }}/>
                 }
             </View>
-            <View style={{
+            {(status === "owner" ? <View style={{
                 padding: 15, alignSelf: "center", flexGrow: 1,
                 flexDirection: "column", marginTop: 10
             }}>
@@ -131,7 +131,7 @@ const Task = ({route, navigation}) => {
                         console.log(task.task_id)
                     })
                 }}/>
-            </View>
+            </View> : null )}
             <View style={{padding: 15, marginTop: 10, marginBottom: 10}}>
                 <Card>
                     {taskReportsList}
