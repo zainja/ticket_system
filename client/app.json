@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ticket system",
-    "slug": "ticket",
+    "name": "Field Support app",
+    "slug": "support",
     "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

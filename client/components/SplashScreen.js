@@ -48,7 +48,7 @@ const SplashScreen = (props) => {
     }, [])
     return (
         <View style={[styles.container, styles.splash]}>
-            <Text style={styles.splashFont}>Ticket System</Text>
+            <Text style={styles.splashFont}>Field Support App</Text>
         </View>
     )
 }
